@@ -95,7 +95,11 @@ export default function VideoShowcase() {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="relative w-full max-w-6xl aspect-video bg-black rounded-xl md:rounded-3xl overflow-hidden shadow-2xl ring-1 ring-white/10"
+              className={`relative w-full shadow-2xl ring-1 ring-white/10 overflow-hidden bg-black
+                ${selectedVideo.embedUrl 
+                  ? 'max-w-[400px] aspect-[9/16] rounded-3xl' 
+                  : 'max-w-6xl aspect-video rounded-xl md:rounded-3xl'
+                }`}
               onClick={e => e.stopPropagation()}
             >
               <button 

@@ -1,19 +1,46 @@
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { ArrowLeft, Clock, Calendar, User, Share2, ArrowUpRight } from 'lucide-react';
-import { BLOG_POSTS } from '../constants/blog';
-import { useEffect } from 'react';
+import { ArrowLeft, Clock, Calendar, Share2, ArrowUpRight } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { blogService } from '../services/blogService';
+import { BlogPost } from '../constants/blog';
 
 export default function BlogDetail() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
-  const post = BLOG_POSTS.find(p => p.slug === slug);
+  const [post, setPost] = useState<BlogPost | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [morePosts, setMorePosts] = useState<BlogPost[]>([]);
 
   useEffect(() => {
-    if (!post) {
-      navigate('/blog');
-    }
-  }, [post, navigate]);
+    const fetchPost = async () => {
+      if (!slug) return;
+      try {
+        const data = await blogService.getPostBySlug(slug);
+        if (data) {
+          setPost(data);
+          const allPosts = await blogService.getAllPosts();
+          setMorePosts(allPosts.filter(p => p.slug !== slug).slice(0, 2));
+        } else {
+          navigate('/blog');
+        }
+      } catch (error) {
+        console.error('Failed to fetch post:', error);
+        navigate('/blog');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPost();
+    window.scrollTo(0, 0);
+  }, [slug, navigate]);
+
+  if (loading) return (
+    <div className="pt-32 pb-24 text-center">
+      <p>Loading story...</p>
+    </div>
+  );
 
   if (!post) return null;
 
@@ -107,28 +134,30 @@ export default function BlogDetail() {
         </div>
 
         {/* Next Posts */}
-        <section className="mt-32 pt-20 border-t border-brand-sand">
-           <div className="flex justify-between items-end mb-16">
-              <h2 className="text-4xl font-black uppercase">More <br /><span className="text-brand-brown italic font-serif">Stories.</span></h2>
-              <Link to="/blog" className="btn-outline text-xs">View Journal</Link>
-           </div>
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-              {BLOG_POSTS.filter(p => p.id !== post.id).slice(0, 2).map((otherPost) => (
-                <Link key={otherPost.id} to={`/blog/${otherPost.slug}`} className="group block">
-                  <div className="aspect-video rounded-2xl overflow-hidden mb-6 bg-brand-sand">
-                    <img src={otherPost.image} alt={otherPost.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                  </div>
-                  <span className="text-[10px] font-bold text-gray-400 tracking-widest uppercase mb-3 block">{otherPost.category}</span>
-                  <h3 className="text-2xl font-black uppercase leading-tight group-hover:text-brand-brown transition-colors">
-                    {otherPost.title}
-                  </h3>
-                  <div className="mt-6 flex items-center gap-2 text-xs font-bold uppercase tracking-widest">
-                    Read Story <ArrowUpRight size={14} className="group-hover:rotate-45 transition-transform" />
-                  </div>
-                </Link>
-              ))}
-           </div>
-        </section>
+        {morePosts.length > 0 && (
+          <section className="mt-32 pt-20 border-t border-brand-sand">
+             <div className="flex justify-between items-end mb-16">
+                <h2 className="text-4xl font-black uppercase">More <br /><span className="text-brand-brown italic font-serif">Stories.</span></h2>
+                <Link to="/blog" className="btn-outline text-xs">View Journal</Link>
+             </div>
+             <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                {morePosts.map((otherPost) => (
+                  <Link key={otherPost.id} to={`/blog/${otherPost.slug}`} className="group block">
+                    <div className="aspect-video rounded-2xl overflow-hidden mb-6 bg-brand-sand">
+                      <img src={otherPost.image} alt={otherPost.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                    </div>
+                    <span className="text-[10px] font-bold text-gray-400 tracking-widest uppercase mb-3 block">{otherPost.category}</span>
+                    <h3 className="text-2xl font-black uppercase leading-tight group-hover:text-brand-brown transition-colors">
+                      {otherPost.title}
+                    </h3>
+                    <div className="mt-6 flex items-center gap-2 text-xs font-bold uppercase tracking-widest">
+                      Read Story <ArrowUpRight size={14} className="group-hover:rotate-45 transition-transform" />
+                    </div>
+                  </Link>
+                ))}
+             </div>
+          </section>
+        )}
       </div>
     </motion.div>
   );

@@ -1,0 +1,29 @@
+{
+  "entities": {
+    "BlogPost": {
+      "title": "Blog Post",
+      "description": "A single blog post entry",
+      "type": "object",
+      "properties": {
+        "slug": { "type": "string" },
+        "date": { "type": "string" },
+        "category": { "type": "string" },
+        "title": { "type": "string" },
+        "image": { "type": "string" },
+        "excerpt": { "type": "string" },
+        "content": { "type": "string" },
+        "readTime": { "type": "string" },
+        "author": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["slug", "title", "content", "category"]
+    }
+  },
+  "firestore": {
+    "/blogPosts/{postId}": {
+      "schema": "BlogPost",
+      "description": "Collection of blog posts"
+    }
+  }
+}

@@ -12,6 +12,8 @@ import Contact from './pages/Contact';
 import Blog from './pages/Blog';
 import ProjectDetail from './pages/ProjectDetail';
 import BlogDetail from './pages/BlogDetail';
+import AdminBlogEditor from './pages/AdminBlogEditor';
+import Login from './pages/Login';
 import { useEffect } from 'react';
 
 // Scroll to top on route change
@@ -46,6 +48,9 @@ function PageRoutes() {
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogDetail />} />
           <Route path="/portfolio/:slug" element={<ProjectDetail />} />
+          <Route path="/admin/login" element={<Login />} />
+          <Route path="/admin/blog/new" element={<AdminBlogEditor />} />
+          <Route path="/admin/blog/edit/:id" element={<AdminBlogEditor />} />
         </Routes>
       </motion.div>
     </AnimatePresence>

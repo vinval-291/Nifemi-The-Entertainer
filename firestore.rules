@@ -1,0 +1,43 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && 
+             (request.auth.token.email == "kuteyioluwaloyevincent291@gmail.com" || 
+              request.auth.token.email == "vinvaldigital291@gmail.com") && 
+             request.auth.token.email_verified == true;
+    }
+
+    function isValidBlogPost(data) {
+      return data.keys().hasAll(['slug', 'title', 'content', 'category']) &&
+             data.slug is string && data.slug.size() > 0 && data.slug.size() <= 200 &&
+             data.title is string && data.title.size() > 0 && data.title.size() <= 200 &&
+             data.content is string && data.content.size() > 0 && data.content.size() <= 50000 &&
+             data.category is string && data.category.size() > 0 && data.category.size() <= 100 &&
+             (data.get('author', '') is string && data.get('author', '').size() <= 100) &&
+             (data.get('image', '') is string && data.get('image', '').size() <= 1000) &&
+             (data.get('excerpt', '') is string && data.get('excerpt', '').size() <= 1000) &&
+             (data.get('date', '') is string && data.get('date', '').size() <= 50);
+    }
+
+    match /blogPosts/{postId} {
+      allow read: if true;
+      allow create: if isAdmin() && 
+                      isValidBlogPost(request.resource.data) && 
+                      request.resource.data.createdAt == request.time;
+      allow update: if isAdmin() && 
+                      isValidBlogPost(request.resource.data) && 
+                      request.resource.data.updatedAt == request.time &&
+                      request.resource.data.createdAt == resource.data.createdAt;
+      allow delete: if isAdmin();
+    }
+  }
+}
