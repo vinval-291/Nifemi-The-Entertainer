@@ -26,7 +26,8 @@ export default function AdminBlogEditor() {
     excerpt: '',
     content: '',
     readTime: '5 min',
-    author: 'Nifemi Ajisefinni'
+    author: 'Nifemi Ajisefinni',
+    status: 'published'
   });
 
   useEffect(() => {
@@ -42,7 +43,7 @@ export default function AdminBlogEditor() {
       const fetchPost = async () => {
         try {
           const allPosts = await blogService.getAllPosts();
-          const post = allPosts.find(p => (p as any).id === id);
+          const post = allPosts.find(p => String((p as any).id) === id);
           if (post) {
             const { id: _, ...rest } = post as any;
             setFormData(rest);
@@ -69,6 +70,10 @@ export default function AdminBlogEditor() {
         // Auto-generate slug from title if not manually edited
         slug: name === 'title' && !isEditing ? value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '') : prev.slug
     }));
+  };
+
+  const handleStatusToggle = (status: 'published' | 'draft') => {
+    setFormData(prev => ({ ...prev, status }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -122,15 +127,41 @@ export default function AdminBlogEditor() {
               </h1>
               <p className="text-xs text-gray-400 uppercase tracking-widest mt-2">{formData.slug || 'slug-will-appear-here'}</p>
             </div>
-            {isEditing && (
-              <button 
-                onClick={handleDelete}
-                className="p-3 text-red-500 hover:bg-red-50 rounded-full transition-colors"
-                title="Delete Post"
-              >
-                <Trash2 size={20} />
-              </button>
-            )}
+            <div className="flex items-center gap-4">
+              <div className="flex bg-brand-beige p-1 rounded-full border border-brand-sand">
+                <button
+                  type="button"
+                  onClick={() => handleStatusToggle('published')}
+                  className={`px-4 py-1.5 text-[8px] font-black uppercase tracking-widest rounded-full transition-all ${
+                    formData.status === 'published' 
+                      ? 'bg-brand-brown text-white shadow-md' 
+                      : 'text-gray-400 hover:text-gray-600'
+                  }`}
+                >
+                  Published
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleStatusToggle('draft')}
+                  className={`px-4 py-1.5 text-[8px] font-black uppercase tracking-widest rounded-full transition-all ${
+                    formData.status === 'draft' 
+                      ? 'bg-gray-400 text-white shadow-md' 
+                      : 'text-gray-400 hover:text-gray-600'
+                  }`}
+                >
+                  Draft
+                </button>
+              </div>
+              {isEditing && (
+                <button 
+                  onClick={handleDelete}
+                  className="p-3 text-red-500 hover:bg-red-50 rounded-full transition-colors"
+                  title="Delete Post"
+                >
+                  <Trash2 size={20} />
+                </button>
+              )}
+            </div>
           </div>
 
           <form onSubmit={handleSubmit} className="p-8 md:p-12 space-y-8">

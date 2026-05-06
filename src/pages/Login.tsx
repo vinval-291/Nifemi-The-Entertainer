@@ -6,7 +6,7 @@ import {
   signInWithEmailAndPassword
 } from 'firebase/auth';
 import { auth } from '../lib/firebase';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { LogIn, LogOut, User, ShieldCheck, Mail, Lock, ChevronRight } from 'lucide-react';

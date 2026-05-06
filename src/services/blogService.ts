@@ -62,6 +62,7 @@ export const blogService = {
         return {
           id: doc.id as any,
           ...data,
+          status: data.status || 'published', // Fallback for old docs
           createdAt: data.createdAt?.toDate?.() || data.createdAt,
           updatedAt: data.updatedAt?.toDate?.() || data.updatedAt,
         } as unknown as BlogPost;
@@ -99,6 +100,7 @@ export const blogService = {
       return {
         id: dbDoc.id as any,
         ...data,
+        status: data.status || 'published', // Fallback
       } as unknown as BlogPost;
     } catch (error) {
       const staticPost = BLOG_POSTS.find(p => p.slug === slug);

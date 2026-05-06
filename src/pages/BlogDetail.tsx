@@ -4,6 +4,9 @@ import { ArrowLeft, Clock, Calendar, Share2, ArrowUpRight } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { blogService } from '../services/blogService';
 import { BlogPost } from '../constants/blog';
+import { auth } from '../lib/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+import { isUserAdmin } from '../constants/admin';
 
 export default function BlogDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -11,8 +14,13 @@ export default function BlogDetail() {
   const [post, setPost] = useState<BlogPost | null>(null);
   const [loading, setLoading] = useState(true);
   const [morePosts, setMorePosts] = useState<BlogPost[]>([]);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setIsAdmin(isUserAdmin(user?.email));
+    });
+
     const fetchPost = async () => {
       if (!slug) return;
       try {
@@ -20,7 +28,7 @@ export default function BlogDetail() {
         if (data) {
           setPost(data);
           const allPosts = await blogService.getAllPosts();
-          setMorePosts(allPosts.filter(p => p.slug !== slug).slice(0, 2));
+          setMorePosts(allPosts.filter(p => p.slug !== slug && (isUserAdmin(auth.currentUser?.email) || p.status === 'published')).slice(0, 2));
         } else {
           navigate('/blog');
         }
@@ -34,6 +42,8 @@ export default function BlogDetail() {
 
     fetchPost();
     window.scrollTo(0, 0);
+
+    return () => unsubscribe();
   }, [slug, navigate]);
 
   if (loading) return (
@@ -43,6 +53,12 @@ export default function BlogDetail() {
   );
 
   if (!post) return null;
+
+  // Final check: if post is draft and user is not admin, redirect
+  if (post.status === 'draft' && !isAdmin) {
+    navigate('/blog');
+    return null;
+  }
 
   return (
     <motion.div

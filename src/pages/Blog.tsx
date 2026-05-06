@@ -35,10 +35,16 @@ export default function Blog() {
     return () => unsubscribe();
   }, []);
 
-  const filteredPosts = posts.filter(post => 
-    post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    post.category.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredPosts = posts
+    .filter(post => {
+      // If not admin, only show published posts
+      if (!isAdmin && post.status === 'draft') return false;
+      return true;
+    })
+    .filter(post => 
+      post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      post.category.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
   if (loading) {
     return (
@@ -94,6 +100,11 @@ export default function Blog() {
               >
                 {isAdmin && (
                   <div className="absolute top-4 right-4 z-10 flex gap-2">
+                    {post.status === 'draft' && (
+                      <span className="px-3 py-1 bg-gray-900 text-white rounded-full text-[8px] font-black uppercase tracking-widest">
+                        Draft
+                      </span>
+                    )}
                     <Link 
                       to={`/admin/blog/edit/${post.id}`} 
                       className="px-3 py-1 bg-white/80 backdrop-blur-md rounded-full text-[8px] font-black uppercase transition-colors hover:bg-white"

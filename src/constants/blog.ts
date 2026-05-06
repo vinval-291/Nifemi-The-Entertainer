@@ -1,5 +1,5 @@
 export interface BlogPost {
-  id: number;
+  id: string | number;
   slug: string;
   date: string;
   category: string;
@@ -9,6 +9,7 @@ export interface BlogPost {
   content: string;
   readTime: string;
   author: string;
+  status: 'published' | 'draft';
 }
 
 export const BLOG_POSTS: BlogPost[] = [
@@ -33,7 +34,8 @@ export const BLOG_POSTS: BlogPost[] = [
       <p>The future of PR belongs to the storytellers who understand that data is just the skeleton of a narrative. To truly impact culture, you must breathe life into that data through empathy, community engagement, and a visionary creative direction.</p>
     `,
     readTime: '6 min',
-    author: 'Nifemi Ajisefinni'
+    author: 'Nifemi Ajisefinni',
+    status: 'published'
   },
   {
     id: 2,
@@ -56,7 +58,8 @@ export const BLOG_POSTS: BlogPost[] = [
       <p>An audience watches; a community participates. Moving from a broadcast model to a conversational model is essential. Empower your early adopters to become ambassadors. Give them the tools to tell your story in their own voices.</p>
     `,
     readTime: '8 min',
-    author: 'Nifemi Ajisefinni'
+    author: 'Nifemi Ajisefinni',
+    status: 'published'
   },
   {
     id: 3,
@@ -76,7 +79,8 @@ export const BLOG_POSTS: BlogPost[] = [
       <p>Maximalist designs are often tied to specific eras and can feel dated within years. Minimalist design, by sticking to fundamental principles of balance and typography, tends to age much better. This is why the world's most enduring brands—from Braun to Prada—lean into minimalist principles.</p>
     `,
     readTime: '5 min',
-    author: 'Nifemi Ajisefinni'
+    author: 'Nifemi Ajisefinni',
+    status: 'published'
   },
   {
     id: 4,
@@ -96,6 +100,7 @@ export const BLOG_POSTS: BlogPost[] = [
       <p>News no longer breaks on the 9 PM broadcast; it breaks on X (formerly Twitter) and Instagram. Media organizations that have successfully transitioned are the ones that treat digital not as a secondary outlet, but as the primary battlefield. The focus has shifted from being the first to report, to being the most accurate and engaging in the digital space.</p>
     `,
     readTime: '7 min',
-    author: 'Nifemi Ajisefinni'
+    author: 'Nifemi Ajisefinni',
+    status: 'published'
   }
 ];
