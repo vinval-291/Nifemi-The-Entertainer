@@ -1,18 +1,30 @@
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, LayoutDashboard } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { auth } from '../../lib/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+import { isUserAdmin } from '../../constants/admin';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };
+
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setIsAdmin(isUserAdmin(user?.email));
+    });
+
     window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      unsubscribe();
+    };
   }, []);
 
   const navLinks = [
@@ -94,6 +106,11 @@ export default function Navbar() {
               )}
             </div>
           ))}
+          {isAdmin && (
+            <Link to="/admin/dashboard" className="p-2 bg-brand-brown text-white rounded-full hover:scale-110 transition-all shadow-md group" title="Dashboard">
+              <LayoutDashboard size={14} />
+            </Link>
+          )}
           <a href="https://wa.me/2348137790608" target="_blank" rel="noreferrer" className="btn-primary py-2 px-6 text-[10px]">
             Work With Me
           </a>
@@ -168,6 +185,17 @@ export default function Navbar() {
             <a href="https://wa.me/2348137790608" target="_blank" rel="noreferrer" className="btn-primary w-full text-center" onClick={() => setIsOpen(false)}>
               Work With Me
             </a>
+
+            {isAdmin && (
+              <Link 
+                to="/admin/dashboard" 
+                className="flex items-center justify-center gap-3 w-full py-4 bg-brand-brown text-white rounded-full text-[10px] font-black uppercase tracking-widest"
+                onClick={() => setIsOpen(false)}
+              >
+                <LayoutDashboard size={14} />
+                Admin Dashboard
+              </Link>
+            )}
           </motion.div>
         )}
       </AnimatePresence>

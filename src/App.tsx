@@ -13,14 +13,24 @@ import Blog from './pages/Blog';
 import ProjectDetail from './pages/ProjectDetail';
 import BlogDetail from './pages/BlogDetail';
 import AdminBlogEditor from './pages/AdminBlogEditor';
+import AdminDashboard from './pages/AdminDashboard';
 import Login from './pages/Login';
 import { useEffect } from 'react';
+import { analyticsService } from './services/analyticsService';
 
 // Scroll to top on route change
 function ScrollToTop() {
   const { pathname } = useLocation();
   useEffect(() => {
     window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+}
+
+function AnalyticsTracker() {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    analyticsService.trackPageView(pathname);
   }, [pathname]);
   return null;
 }
@@ -51,6 +61,7 @@ function PageRoutes() {
           <Route path="/admin/login" element={<Login />} />
           <Route path="/admin/blog/new" element={<AdminBlogEditor />} />
           <Route path="/admin/blog/edit/:id" element={<AdminBlogEditor />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
         </Routes>
       </motion.div>
     </AnimatePresence>
@@ -61,6 +72,7 @@ export default function App() {
   return (
     <Router>
       <ScrollToTop />
+      <AnalyticsTracker />
       <div className="flex flex-col min-h-screen bg-brand-white">
         <Navbar />
         <main className="flex-grow">

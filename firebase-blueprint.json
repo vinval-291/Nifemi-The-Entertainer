@@ -18,12 +18,30 @@
         "updatedAt": { "type": "string", "format": "date-time" }
       },
       "required": ["slug", "title", "content", "category"]
+    },
+    "AnalyticsEvent": {
+      "title": "Analytics Event",
+      "description": "A single tracking event like a page view",
+      "type": "object",
+      "properties": {
+        "type": { "type": "string", "enum": ["page_view", "session_start"] },
+        "path": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "visitorId": { "type": "string" },
+        "userAgent": { "type": "string" },
+        "platform": { "type": "string" }
+      },
+      "required": ["type", "path", "timestamp", "visitorId"]
     }
   },
   "firestore": {
     "/blogPosts/{postId}": {
       "schema": "BlogPost",
       "description": "Collection of blog posts"
+    },
+    "/analytics/{eventId}": {
+      "schema": "AnalyticsEvent",
+      "description": "Tracking events for visitor analytics"
     }
   }
 }
