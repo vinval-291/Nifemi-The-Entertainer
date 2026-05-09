@@ -7,6 +7,7 @@ import { BlogPost } from '../constants/blog';
 import { auth } from '../lib/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { isUserAdmin } from '../constants/admin';
+import CommentSection from '../components/blog/CommentSection';
 
 export default function BlogDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -146,6 +147,9 @@ export default function BlogDetail() {
                <span className="text-xs font-black uppercase hover:text-brand-brown cursor-pointer transition-colors">#Culture</span>
                <span className="text-xs font-black uppercase hover:text-brand-brown cursor-pointer transition-colors">#Storytelling</span>
             </div>
+
+            {/* Comment Section */}
+            <CommentSection postId={String(post.id)} />
           </div>
         </div>
 

@@ -32,6 +32,18 @@
         "platform": { "type": "string" }
       },
       "required": ["type", "path", "timestamp", "visitorId"]
+    },
+    "Comment": {
+      "title": "Comment",
+      "description": "A comment on a blog post",
+      "type": "object",
+      "properties": {
+        "postId": { "type": "string" },
+        "authorName": { "type": "string" },
+        "content": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["postId", "authorName", "content"]
     }
   },
   "firestore": {
@@ -42,6 +54,10 @@
     "/analytics/{eventId}": {
       "schema": "AnalyticsEvent",
       "description": "Tracking events for visitor analytics"
+    },
+    "/comments/{commentId}": {
+      "schema": "Comment",
+      "description": "Visitor comments on blog posts"
     }
   }
 }

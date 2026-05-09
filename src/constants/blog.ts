@@ -1,3 +1,11 @@
+export interface Comment {
+  id: string;
+  postId: string;
+  authorName: string;
+  content: string;
+  createdAt: any;
+}
+
 export interface BlogPost {
   id: string | number;
   slug: string;
