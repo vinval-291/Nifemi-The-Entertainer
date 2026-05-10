@@ -13,10 +13,9 @@ service cloud.firestore {
 
     function isAdmin() {
       return isSignedIn() && 
-             (request.auth.token.email == "kuteyioluwaloyevincent291@gmail.com" || 
-              request.auth.token.email == "vinvaldigital291@gmail.com" ||
-              request.auth.token.email == "dev@davricgroup.com") && 
-             request.auth.token.email_verified == true;
+             (request.auth.token.email.lower() == "kuteyioluwaloyevincent291@gmail.com" || 
+              request.auth.token.email.lower() == "vinvaldigital291@gmail.com" ||
+              request.auth.token.email.lower() == "dev@davricgroup.com");
     }
 
     function isValidBlogPost(data) {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { MessageSquare, Send, Trash2, User } from 'lucide-react';
+import { onAuthStateChanged } from 'firebase/auth';
 import { commentService } from '../../services/commentService';
 import { Comment } from '../../constants/blog';
 import { auth } from '../../lib/firebase';
@@ -28,12 +29,12 @@ export default function CommentSection({ postId }: CommentSectionProps) {
 
     fetchComments();
     
-    // Check if current user is admin
-    const checkAdmin = () => {
-      const user = auth.currentUser;
+    // Subscribe to auth state changes for admin privileges
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       setIsAdmin(isUserAdmin(user?.email));
-    };
-    checkAdmin();
+    });
+
+    return () => unsubscribe();
   }, [postId]);
 
   const handleSubmit = async (e: React.FormEvent) => {

@@ -62,7 +62,7 @@ export default function Blog() {
       <div className="section-container">
         <header className="mb-20 text-center max-w-3xl mx-auto">
           <div className="flex items-center justify-center gap-4 mb-6">
-            <h1 className="text-5xl md:text-7xl font-black uppercase">The <span className="text-brand-brown">Journal.</span></h1>
+            <h1 cluthorssName="text-5xl md:text-7xl font-black uppercase">The <span className="text-brand-brown">Journal.</span></h1>
             {isAdmin && (
               <Link 
                 to="/admin/blog/new" 
