@@ -38,7 +38,7 @@ export default function Services() {
       <div className="section-container">
         <h1 className="text-5xl md:text-7xl font-black uppercase mb-12">How I <span className="text-brand-brown">elevate</span> brands.</h1>
         <p className="text-lg md:text-2xl font-light text-gray-500 max-w-2xl mb-24">
-          I curate Cultural and Creative Individuals and Global Corporations looking to leave a lasting impact through<span className="text-black font-medium">Shine Brite Entertainment</span>.
+          I curate Cultural and Creative Individuals and Global Corporations looking to leave a lasting impact through <span className="text-black font-medium">Shine Brite Entertainment</span>.
         </p>
 
         <div className="space-y-48">

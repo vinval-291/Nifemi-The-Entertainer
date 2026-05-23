@@ -61,5 +61,15 @@ service cloud.firestore {
       allow delete: if isAdmin();
       allow update: if false;
     }
+
+    match /contactInquiries/{inquiryId} {
+      allow read: if isAdmin();
+      allow create: if request.resource.data.fullName is string && request.resource.data.fullName.size() > 0 &&
+                       request.resource.data.email is string && request.resource.data.email.size() > 0 &&
+                       request.resource.data.projectType is string && request.resource.data.projectType.size() > 0 &&
+                       request.resource.data.message is string && request.resource.data.message.size() > 0;
+      allow delete: if isAdmin();
+      allow update: if false;
+    }
   }
 }

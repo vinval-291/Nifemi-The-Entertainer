@@ -45,6 +45,19 @@
         "createdAt": { "type": "string", "format": "date-time" }
       },
       "required": ["postId", "authorName", "content"]
+    },
+    "ContactInquiry": {
+      "title": "Contact Inquiry",
+      "description": "A submission from the contact inquiry form",
+      "type": "object",
+      "properties": {
+        "fullName": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "projectType": { "type": "string" },
+        "message": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["fullName", "email", "projectType", "message"]
     }
   },
   "firestore": {
@@ -59,6 +72,10 @@
     "/comments/{commentId}": {
       "schema": "Comment",
       "description": "Visitor comments on blog posts"
+    },
+    "/contactInquiries/{inquiryId}": {
+      "schema": "ContactInquiry",
+      "description": "Submissions from the client/visitor contact form"
     }
   }
 }
