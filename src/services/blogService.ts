@@ -59,9 +59,12 @@ export const blogService = {
       const snapshot = await getDocs(q);
       const dbPosts = snapshot.docs.map(doc => {
         const data = doc.data();
+        const categories = data.categories || (data.category ? [data.category] : []);
+        const { category, ...rest } = data;
         return {
           id: doc.id as any,
-          ...data,
+          ...rest,
+          categories,
           status: data.status || 'published', // Fallback for old docs
           createdAt: data.createdAt?.toDate?.() || data.createdAt,
           updatedAt: data.updatedAt?.toDate?.() || data.updatedAt,
@@ -97,9 +100,12 @@ export const blogService = {
       if (!dbDoc) return null;
       
       const data = dbDoc.data();
+      const categories = data.categories || (data.category ? [data.category] : []);
+      const { category, ...rest } = data;
       return {
         id: dbDoc.id as any,
-        ...data,
+        ...rest,
+        categories,
         status: data.status || 'published', // Fallback
       } as unknown as BlogPost;
     } catch (error) {

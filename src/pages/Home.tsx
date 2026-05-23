@@ -186,7 +186,7 @@ export default function Home() {
               <BlogCard 
                 date={post.date}
                 title={post.title}
-                category={post.category}
+                categories={post.categories}
                 slug={post.slug}
               />
             </div>
@@ -246,12 +246,18 @@ function SmallServiceCard({ icon, title, desc }: { icon: ReactNode, title: strin
   );
 }
 
-function BlogCard({ date, title, category, slug }: { date: string, title: string, category: string, slug: string }) {
+function BlogCard({ date, title, categories, slug }: { date: string, title: string, categories: string[], slug: string }) {
   return (
     <Link to={`/blog/${slug}`} className="group block border-b border-brand-sand pb-10">
        <div className="flex justify-between items-center mb-6">
           <span className="text-[10px] font-bold text-gray-400 tracking-widest uppercase">{date}</span>
-          <span className="px-3 py-1 bg-brand-beige text-[9px] font-black uppercase tracking-widest text-brand-brown rounded-full">{category}</span>
+          <div className="flex flex-wrap gap-1 justify-end">
+            {categories.map((cat, idx) => (
+              <span key={idx} className="px-3 py-1 bg-brand-beige text-[9px] font-black uppercase tracking-widest text-brand-brown rounded-full whitespace-nowrap">
+                {cat}
+              </span>
+            ))}
+          </div>
        </div>
        <h3 className="text-2xl font-display font-black uppercase leading-tight group-hover:text-brand-brown transition-colors">
          {title}

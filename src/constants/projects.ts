@@ -39,30 +39,6 @@ export const PROJECTS: Project[] = [
   },
   { 
     id: '2', 
-    slug: 'the-city-pod',
-    title: 'The City Pod', 
-    category: 'Media', 
-    image: 'https://images.unsplash.com/photo-1590602847861-f357a9332bbc?q=80&w=2574&auto=format&fit=crop',
-    desc: 'Podcast production focusing on Lagos culture, entrepreneurship, and Nigerian stories.',
-    fullDesc: 'The City Pod is a podcast platform that focuses on conversations around Lagos culture, entrepreneurship, and global Nigerian stories. Hosted and produced by Nifemi, it highlights modern business culture and media trends.',
-    services: [
-      'Podcast Hosting',
-      'Production Management',
-      'Content Strategy',
-      'Social Media Distribution'
-    ],
-    results: [
-      'Built a consistent listener base of high-value creative professionals.',
-      'Featured top-tier guests from the Nigerian tech and art scenes.',
-      'Secured sponsorship for the second season.'
-    ],
-    gallery: [
-      'https://images.unsplash.com/photo-1478737270239-2f02b77fc618?q=80&w=2670&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1559523161-0fc0d8b38a7a?q=80&w=2670&auto=format&fit=crop'
-    ]
-  },
-  { 
-    id: '3', 
     slug: 'sme-digital-growth',
     title: 'SME Digital Growth', 
     category: 'Branding', 
@@ -82,7 +58,7 @@ export const PROJECTS: Project[] = [
     ]
   },
   { 
-    id: '4', 
+    id: '3', 
     slug: 'business-promo-series',
     title: 'Business Promo Series', 
     category: 'Events', 
@@ -102,7 +78,7 @@ export const PROJECTS: Project[] = [
     ]
   },
   { 
-    id: '5', 
+    id: '4', 
     slug: 'creator-content-lab',
     title: 'Creator Content Lab', 
     category: 'Media', 
@@ -122,7 +98,7 @@ export const PROJECTS: Project[] = [
     ]
   },
   { 
-    id: '6', 
+    id: '5', 
     slug: 'sanctuary-of-life',
     title: 'Sanctuary of Life Ministries', 
     category: 'Media Production', 
@@ -142,7 +118,7 @@ export const PROJECTS: Project[] = [
     ]
   },
   { 
-    id: '7', 
+    id: '6', 
     slug: 'flux-logistix',
     title: 'Flux Logistix', 
     category: 'Strategy', 
@@ -162,7 +138,7 @@ export const PROJECTS: Project[] = [
     ]
   },
   { 
-    id: '8', 
+    id: '7', 
     slug: 'flux-energy',
     title: 'Flux Energy', 
     category: 'PR Campaigns', 
@@ -182,7 +158,7 @@ export const PROJECTS: Project[] = [
     ]
   },
   { 
-    id: '9', 
+    id: '8', 
     slug: 'city-105-1fm',
     title: 'City 105.1fm', 
     category: 'Media', 

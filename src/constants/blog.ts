@@ -10,7 +10,7 @@ export interface BlogPost {
   id: string | number;
   slug: string;
   date: string;
-  category: string;
+  categories: string[];
   title: string;
   image: string;
   excerpt: string;
@@ -25,7 +25,7 @@ export const BLOG_POSTS: BlogPost[] = [
     id: 1,
     slug: 'future-of-pr-digital-world',
     date: 'MAY 12 / 2024',
-    category: 'Insight',
+    categories: ['Insight', 'Technology'],
     title: 'The Future of PR in a Post-Digital World',
     image: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=2574&auto=format&fit=crop',
     excerpt: 'How the shift from platforms to communities is redefining how we think about brand authority and public sentiment.',
@@ -49,7 +49,7 @@ export const BLOG_POSTS: BlogPost[] = [
     id: 2,
     slug: 'build-cultural-brand-scratch',
     date: 'APR 28 / 2024',
-    category: 'Strategy',
+    categories: ['Strategy', 'Culture'],
     title: 'How to Build a Cultural Brand from Scratch',
     image: 'https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=2670&auto=format&fit=crop',
     excerpt: 'Brands are no longer just products; they are symbols of identity. Learn the framework for building a brand that speaks for its audience.',
@@ -73,7 +73,7 @@ export const BLOG_POSTS: BlogPost[] = [
     id: 3,
     slug: 'why-minimalist-design-wins',
     date: 'MAR 15 / 2024',
-    category: 'Design',
+    categories: ['Design', 'Minimalism'],
     title: 'Why Minimalist Design Wins Every Time',
     image: 'https://images.unsplash.com/photo-1505330622279-bf7d7fc918f4?q=80&w=2670&auto=format&fit=crop',
     excerpt: 'The psychological impact of negative space and how it translates to luxury market positioning in the 2020s.',
@@ -94,7 +94,7 @@ export const BLOG_POSTS: BlogPost[] = [
     id: 4,
     slug: 'navigating-new-media-nigeria',
     date: 'FEB 20 / 2024',
-    category: 'Media',
+    categories: ['Media', 'Nigeria'],
     title: 'Navigating the New Media Landscape in Nigeria',
     image: 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=2670&auto=format&fit=crop',
     excerpt: 'A deep dive into the evolving relationship between traditional media houses and independent digital creators.',

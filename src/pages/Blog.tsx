@@ -43,7 +43,7 @@ export default function Blog() {
     })
     .filter(post => 
       post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      post.category.toLowerCase().includes(searchTerm.toLowerCase())
+      post.categories.some(cat => cat.toLowerCase().includes(searchTerm.toLowerCase()))
     );
 
   if (loading) {
@@ -62,7 +62,7 @@ export default function Blog() {
       <div className="section-container">
         <header className="mb-20 text-center max-w-3xl mx-auto">
           <div className="flex items-center justify-center gap-4 mb-6">
-            <h1 cluthorssName="text-5xl md:text-7xl font-black uppercase">The <span className="text-brand-brown">Journal.</span></h1>
+            <h1 className="text-5xl md:text-7xl font-black uppercase">The <span className="text-brand-brown">Journal.</span></h1>
             {isAdmin && (
               <Link 
                 to="/admin/blog/new" 
@@ -123,11 +123,15 @@ export default function Blog() {
                     />
                   </div>
                 </Link>
-                <div className="flex justify-between items-center mb-4">
-                  <span className="text-[10px] font-bold text-brand-brown tracking-widest uppercase">{post.date}</span>
-                  <span className="px-3 py-1 bg-brand-sand text-[8px] font-black uppercase tracking-[0.2em] text-brand-brown rounded-full">
-                    {post.category}
-                  </span>
+                <div className="flex justify-between items-start mb-4">
+                  <span className="text-[10px] font-bold text-brand-brown tracking-widest uppercase mt-1">{post.date}</span>
+                  <div className="flex flex-wrap gap-2 justify-end">
+                    {post.categories.map((cat, idx) => (
+                      <span key={idx} className="px-3 py-1 bg-brand-sand text-[8px] font-black uppercase tracking-[0.2em] text-brand-brown rounded-full whitespace-nowrap">
+                        {cat}
+                      </span>
+                    ))}
+                  </div>
                 </div>
                 <Link to={`/blog/${post.slug}`}>
                   <h2 className="text-2xl font-display font-black uppercase leading-tight mb-4 group-hover:text-brand-brown transition-colors">

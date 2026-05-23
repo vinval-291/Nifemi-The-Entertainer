@@ -15,14 +15,13 @@ export default function Footer() {
               LETS BUILD <br /> YOUR <span className="text-brand-brown italic">LEGACY</span>.
             </h2>
             <p className="text-gray-500 max-w-md mb-8">
-              Available for PR strategy, creative direction, and campaign consulting worldwide.
-              Based in Lagos, working globally as Nifemi the Entertainer.
+              Operating Globally from Lagos as a Digital Nomad, I work under the name Nifemi The Entertainer, delivering PR Strategy, Creative Direction, Filmmaking, Cultural Integration, and Campaign Consulting Services Worldwide.
             </p>
             <div className="flex gap-4">
-              <SocialIcon icon={<Instagram size={20} />} href="#" />
-              <SocialIcon icon={<Twitter size={20} />} href="#" />
+              <SocialIcon icon={<Instagram size={20} />} href="https://www.instagram.com/nifemitheentertainer" />
+              <SocialIcon icon={<Twitter size={20} />} href="https://x.com/nifeentertainer" />
               <SocialIcon icon={<Linkedin size={20} />} href="https://linkedin.com/in/nifemi-ajisefinni" />
-              <SocialIcon icon={<Mail size={20} />} href="mailto:hello@nte-global.com" />
+              <SocialIcon icon={<Mail size={20} />} href="mailto:nifemitheentertainer@gmail.com" />
             </div>
           </div>
 
@@ -40,10 +39,10 @@ export default function Footer() {
           <div>
             <h4 className="text-xs uppercase tracking-widest font-bold mb-8">Contact</h4>
             <ul className="flex flex-col gap-4">
-              <li className="text-sm">hello@nte-global.com</li>
-              <li className="text-sm">+234 813 779 0608</li>
+              <li className="text-sm">nifemitheentertainer@gmail.com</li>
+              <li className="text-sm">+234 810 469 2461</li>
               <li className="flex items-center gap-2 group cursor-pointer">
-                <a href="https://wa.me/2348137790608" target="_blank" rel="noreferrer" className="text-sm flex items-center gap-2">
+                <a href="https://wa.me/2348104692461" target="_blank" rel="noreferrer" className="text-sm flex items-center gap-2">
                   WhatsApp Chat
                   <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                 </a>

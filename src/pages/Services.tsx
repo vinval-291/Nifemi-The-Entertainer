@@ -13,14 +13,14 @@ const SERVICES = [
     icon: <Presentation size={40} strokeWidth={1.5} />,
     title: 'Creative Direction',
     image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2670&auto=format&fit=crop',
-    description: 'Translating your values into visual excellence. I curate the mood, the look, and the feel of campaigns that command attention and drive culture.',
+    description: 'I translate your creative and brand values into visual excellence. I curate the mood, the look, and the feel of campaigns that command attention and drive culture.',
     process: ['Concept Discovery', 'Moodboarding', 'Photography Direction', 'Visual Identity']
   },
   {
     icon: <BarChart3 size={40} strokeWidth={1.5} />,
     title: 'Brand Positioning',
     image: 'https://images.unsplash.com/photo-1434626881859-194d67b2b86f?q=80&w=2670&auto=format&fit=crop',
-    description: 'Carving out your unique space in the market. I help you find your voice and resonate with the modern consumer through strategic alignment.',
+    description: 'I carve out your unique space in the market. I help you find your voice and resonate with the modern consumer through strategic alignment.',
     process: ['Competitor Research', 'Tone of Voice', 'Value Propositions', 'Market Entry Strategy']
   },
   {
@@ -38,7 +38,7 @@ export default function Services() {
       <div className="section-container">
         <h1 className="text-5xl md:text-7xl font-black uppercase mb-12">How I <span className="text-brand-brown">elevate</span> brands.</h1>
         <p className="text-lg md:text-2xl font-light text-gray-500 max-w-2xl mb-24">
-          Bespoke solutions for creative individuals and global corporations looking to leave a lasting impact through <span className="text-black font-medium">Shine Brite Entertainment</span>.
+          I curate Cultural and Creative Individuals and Global Corporations looking to leave a lasting impact through<span className="text-black font-medium">Shine Brite Entertainment</span>.
         </p>
 
         <div className="space-y-48">

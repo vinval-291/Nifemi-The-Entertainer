@@ -13,21 +13,23 @@ service cloud.firestore {
 
     function isAdmin() {
       return isSignedIn() && 
-             (request.auth.token.email.lower() == "kuteyioluwaloyevincent291@gmail.com" || 
-              request.auth.token.email.lower() == "vinvaldigital291@gmail.com" ||
-              request.auth.token.email.lower() == "dev@davricgroup.com");
+             request.auth.token.email != null &&
+             (request.auth.token.email.toLower() == "kuteyioluwaloyevincent291@gmail.com" || 
+              request.auth.token.email.toLower() == "vinvaldigital291@gmail.com" ||
+              request.auth.token.email.toLower() == "dev@davricgroup.com");
     }
 
     function isValidBlogPost(data) {
-      return data.keys().hasAll(['slug', 'title', 'content', 'category']) &&
-             data.slug is string && data.slug.size() > 0 && data.slug.size() <= 200 &&
-             data.title is string && data.title.size() > 0 && data.title.size() <= 200 &&
-             data.content is string && data.content.size() > 0 && data.content.size() <= 50000 &&
-             data.category is string && data.category.size() > 0 && data.category.size() <= 100 &&
-             (data.get('author', '') is string && data.get('author', '').size() <= 100) &&
-             (data.get('image', '') is string && data.get('image', '').size() <= 1000) &&
-             (data.get('excerpt', '') is string && data.get('excerpt', '').size() <= 1000) &&
-             (data.get('date', '') is string && data.get('date', '').size() <= 50);
+      return data.keys().hasAll(['slug', 'title', 'content', 'categories']) &&
+             data.slug is string && data.slug.size() > 0 && data.slug.size() <= 500 &&
+             data.title is string && data.title.size() > 0 && data.title.size() <= 500 &&
+             data.content is string && data.content.size() > 0 && data.content.size() <= 100000 &&
+             data.categories is list && data.categories.size() > 0 &&
+             (data.get('status', 'published') is string) &&
+             (data.get('author', '') is string && data.get('author', '').size() <= 200) &&
+             (data.get('image', '') is string && data.get('image', '').size() <= 2048) &&
+             (data.get('excerpt', '') is string && data.get('excerpt', '').size() <= 2048) &&
+             (data.get('date', '') is string && data.get('date', '').size() <= 100);
     }
 
     // 1. Blog Posts Collection

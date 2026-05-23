@@ -20,15 +20,34 @@ export default function AdminBlogEditor() {
   const [formData, setFormData] = useState<Omit<BlogPost, 'id'>>({
     slug: '',
     date: new Date().toLocaleDateString('en-US', { month: 'short', day: '2-digit', year: 'numeric' }).toUpperCase().replace(',', ' /'),
-    category: 'Insight',
+    categories: ['Insight'],
     title: '',
     image: '',
     excerpt: '',
     content: '',
     readTime: '5 min',
-    author: 'Nifemi Ajisefinni',
+    author: 'Nifemi The Entertainer',
     status: 'published'
   });
+
+  const [newCategory, setNewCategory] = useState('');
+
+  const addCategory = () => {
+    if (newCategory.trim() && !formData.categories.includes(newCategory.trim())) {
+      setFormData(prev => ({
+        ...prev,
+        categories: [...prev.categories, newCategory.trim()]
+      }));
+      setNewCategory('');
+    }
+  };
+
+  const removeCategory = (catToRemove: string) => {
+    setFormData(prev => ({
+      ...prev,
+      categories: prev.categories.filter(c => c !== catToRemove)
+    }));
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -78,6 +97,10 @@ export default function AdminBlogEditor() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (formData.categories.length === 0) {
+      alert('Please add at least one category.');
+      return;
+    }
     setSaving(true);
     try {
       if (isEditing && id) {
@@ -86,21 +109,49 @@ export default function AdminBlogEditor() {
         await blogService.createPost(formData);
       }
       navigate('/blog');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error saving post:', error);
-      alert('Failed to save post. Check console for details.');
+      let errorMessage = 'Failed to save post.';
+      try {
+        const firestoreError = JSON.parse(error.message);
+        errorMessage += ` ${firestoreError.error}`;
+      } catch {
+        errorMessage += ` ${error.message || 'Unknown error'}`;
+      }
+      alert(errorMessage);
     } finally {
       setSaving(false);
     }
   };
 
   const handleDelete = async () => {
-    if (!id || !window.confirm('Are you sure you want to delete this post?')) return;
+    if (!id) return;
+    
+    // Check if it's a static post (numeric IDs in our setup are static)
+    const isStatic = !isNaN(Number(id));
+    if (isStatic) {
+      alert("This is a hardcoded post and cannot be deleted from the database.");
+      return;
+    }
+
+    if (!window.confirm('Are you sure you want to delete this post?')) return;
+    
+    setSaving(true);
     try {
       await blogService.deletePost(id);
       navigate('/blog');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error deleting post:', error);
+      let errorMessage = 'Failed to delete post.';
+      try {
+        const firestoreError = JSON.parse(error.message);
+        errorMessage += ` ${firestoreError.error}`;
+      } catch {
+        errorMessage += ` ${error.message || 'Unknown error'}`;
+      }
+      alert(errorMessage);
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -152,15 +203,6 @@ export default function AdminBlogEditor() {
                   Draft
                 </button>
               </div>
-              {isEditing && (
-                <button 
-                  onClick={handleDelete}
-                  className="p-3 text-red-500 hover:bg-red-50 rounded-full transition-colors"
-                  title="Delete Post"
-                >
-                  <Trash2 size={20} />
-                </button>
-              )}
             </div>
           </div>
 
@@ -191,20 +233,33 @@ export default function AdminBlogEditor() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">Category</label>
-                <select 
-                  name="category"
-                  value={formData.category}
-                  onChange={handleChange}
-                  className="w-full bg-brand-beige border border-brand-sand rounded-xl px-4 py-3 outline-none focus:border-black transition-colors text-xs font-bold uppercase"
-                >
-                  <option value="Insight">Insight</option>
-                  <option value="Strategy">Strategy</option>
-                  <option value="Design">Design</option>
-                  <option value="Media">Media</option>
-                  <option value="Campaign">Campaign</option>
-                </select>
+              <div className="space-y-4 md:col-span-2">
+                <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">Categories</label>
+                <div className="flex flex-wrap gap-2 mb-2">
+                  {formData.categories.map((cat, idx) => (
+                    <span key={idx} className="flex items-center gap-2 px-3 py-1 bg-brand-sand text-[8px] font-black uppercase tracking-[0.2em] text-brand-brown rounded-full">
+                      {cat}
+                      <button type="button" onClick={() => removeCategory(cat)} className="hover:text-red-500">×</button>
+                    </span>
+                  ))}
+                </div>
+                <div className="flex gap-2">
+                  <input 
+                    type="text"
+                    value={newCategory}
+                    onChange={(e) => setNewCategory(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addCategory())}
+                    placeholder="Add category (e.g. Media)"
+                    className="flex-grow bg-brand-beige border border-brand-sand rounded-xl px-4 py-2 outline-none focus:border-black transition-colors text-xs font-bold uppercase"
+                  />
+                  <button 
+                    type="button" 
+                    onClick={addCategory}
+                    className="px-4 py-2 bg-brand-sand text-[10px] font-black uppercase tracking-widest rounded-xl hover:bg-brand-brown hover:text-white transition-all"
+                  >
+                    Add
+                  </button>
+                </div>
               </div>
               <div className="space-y-2">
                 <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">Date Display</label>
@@ -215,15 +270,16 @@ export default function AdminBlogEditor() {
                   className="w-full bg-brand-beige border border-brand-sand rounded-xl px-4 py-3 outline-none focus:border-black transition-colors text-xs font-bold uppercase"
                 />
               </div>
-              <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">Read Time</label>
-                <input 
-                  name="readTime"
-                  value={formData.readTime}
-                  onChange={handleChange}
-                  className="w-full bg-brand-beige border border-brand-sand rounded-xl px-4 py-3 outline-none focus:border-black transition-colors text-xs font-bold uppercase"
-                />
-              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">Read Time</label>
+              <input 
+                name="readTime"
+                value={formData.readTime}
+                onChange={handleChange}
+                className="w-full bg-brand-beige border border-brand-sand rounded-xl px-4 py-3 outline-none focus:border-black transition-colors text-xs font-bold uppercase"
+              />
             </div>
 
             <div className="space-y-2">
@@ -263,27 +319,45 @@ export default function AdminBlogEditor() {
               />
             </div>
 
-            <div className="flex justify-end gap-4 pt-8">
-              <Link 
-                to="/blog" 
-                className="px-8 py-4 text-[10px] font-black uppercase tracking-widest border border-brand-sand rounded-full hover:bg-brand-sand transition-colors"
-              >
-                Cancel
-              </Link>
-              <button 
-                type="submit"
-                disabled={saving}
-                className="px-10 py-4 bg-brand-brown text-white text-[10px] font-black uppercase tracking-widest rounded-full hover:bg-black transition-all flex items-center gap-2 disabled:opacity-50"
-              >
-                {saving ? (
-                  <>Saving...</>
-                ) : (
-                  <>
-                    <Save size={14} />
-                    {isEditing ? 'Update Post' : 'Publish Post'}
-                  </>
+            <div className="flex justify-between items-center pt-8">
+              <div>
+                {isEditing && (
+                  <button 
+                    type="button"
+                    onClick={() => {
+                      console.log('Delete button clicked for ID:', id);
+                      handleDelete();
+                    }}
+                    disabled={saving}
+                    className="px-6 py-4 text-red-500 text-[10px] font-black uppercase tracking-widest border border-red-200 rounded-full hover:bg-red-50 transition-all flex items-center gap-2 disabled:opacity-50 cursor-pointer"
+                  >
+                    <Trash2 size={14} />
+                    Delete Post
+                  </button>
                 )}
-              </button>
+              </div>
+              <div className="flex gap-4">
+                <Link 
+                  to="/blog" 
+                  className="px-8 py-4 text-[10px] font-black uppercase tracking-widest border border-brand-sand rounded-full hover:bg-brand-sand transition-colors"
+                >
+                  Cancel
+                </Link>
+                <button 
+                  type="submit"
+                  disabled={saving}
+                  className="px-10 py-4 bg-brand-brown text-white text-[10px] font-black uppercase tracking-widest rounded-full hover:bg-black transition-all flex items-center gap-2 disabled:opacity-50"
+                >
+                  {saving ? (
+                    <>Saving...</>
+                  ) : (
+                    <>
+                      <Save size={14} />
+                      {isEditing ? 'Update Post' : 'Publish Post'}
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
           </form>
         </div>

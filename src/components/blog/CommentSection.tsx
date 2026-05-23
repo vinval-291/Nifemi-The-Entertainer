@@ -153,11 +153,15 @@ export default function CommentSection({ postId }: CommentSectionProps) {
                       </span>
                       {isAdmin && (
                         <button 
-                          onClick={() => handleDelete(comment.id)}
-                          className="text-red-400 hover:text-red-600 transition-colors"
+                          type="button"
+                          onClick={() => {
+                            console.log('Delete comment clicked:', comment.id);
+                            handleDelete(comment.id);
+                          }}
+                          className="p-2 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-full transition-all cursor-pointer"
                           title="Delete Comment"
                         >
-                          <Trash2 size={12} />
+                          <Trash2 size={16} />
                         </button>
                       )}
                     </div>

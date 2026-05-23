@@ -23,16 +23,16 @@ export default function About() {
                  "Culture isn't just something I consume; it's something I curate with intention."
                </p>
                <p>
-                 I am Nifemi The Entertainer (NTE), a Public Relations Manager, Creative Director, and the founder of <span className="text-black font-medium">Shine Brite Entertainment</span>. My work exists at the intersection of fashion, music, and strategic storytelling.
+                 I am Nifemi The Entertainer (NTE), a Public Relations Manager, Creative Director, and the Founder of <span className="text-black font-medium">Shine Brite Entertainment</span>. My work exists at the intersection of film, Photgraphy, Content Creation, Cultural Awareness Fashion and Strategic Storytelling.
                </p>
                <p>
-                 Starting my journey as a host and producer, I realized early on that brands didn't just need visibility—they needed a soul. I've dedicated my career to ensuring that every campaign I lead feels like a cultural movement rather than just a broadcast.
+                 Starting my journey as a Content Creator and Filmmaker, I realized early on that brands didn't just need visibility, they needed a soul. So I've dedicated my career to ensuring that every campaign I lead feels like a cultural movement rather than just a broadcast.
                </p>
                <p>
-                 From managing digital marketing for industrial giants like <span className="text-black font-medium">Probina Nigeria Limited</span> to hosting critical cultural conversations on <span className="text-black font-medium">The City Pod</span>, my approach is always hands-on and high-standard.
+                 From managing Digital Marketing for Industrial Giants like <span className="text-black font-medium">PROBINA NIGERIA LIMITED</span> to hosting critical cultural conversations on my Podcast called <span className="text-black font-medium">TTSNTE</span> (The Truth Sessions with Nifemi The Entertainer), My approach is always Hands-On and High-Standard.
                </p>
                <p>
-                 Today, I act as a bridge for global brands looking to tap into the vibrant energy of the African creative landscape, and for local talents aiming for global recognition.
+                 Today, I act as a Bridge for Global Brands looking to tap into the Vibrant Energy of the African Creative Landscape, and for Local Talents aiming for Global Recognition.
                </p>
             </div>
 
@@ -46,15 +46,6 @@ export default function About() {
                    <li>Video Production & Direction</li>
                    <li>Brand Storytelling</li>
                    <li>Podcast Production</li>
-                 </ul>
-               </div>
-               <div>
-                  <h4 className="text-xs uppercase tracking-widest font-black mb-6 text-brand-brown">Recognition</h4>
-                 <ul className="space-y-4 text-sm uppercase tracking-tight font-medium">
-                   <li>Creative Entrepreneur of the Year</li>
-                   <li>Top 50 List: Creative Minds</li>
-                   <li>Feature: Guardian Life</li>
-                   <li>Feature: Pulse Nigeria</li>
                  </ul>
                </div>
             </div>

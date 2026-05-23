@@ -77,11 +77,13 @@ export default function BlogDetail() {
 
         {/* Header */}
         <header className="max-w-4xl mb-16">
-          <div className="flex flex-wrap items-center gap-6 mb-8">
-            <span className="px-4 py-1.5 bg-brand-beige text-brand-brown text-[10px] font-black uppercase tracking-widest rounded-full">
-              {post.category}
-            </span>
-            <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest font-bold text-gray-400">
+          <div className="flex flex-wrap items-center gap-4 mb-8">
+            {post.categories.map((cat, idx) => (
+              <span key={idx} className="px-4 py-1.5 bg-brand-beige text-brand-brown text-[10px] font-black uppercase tracking-widest rounded-full">
+                {cat}
+              </span>
+            ))}
+            <div className="flex items-center gap-2 text-[10px] uppercase tracking-widest font-bold text-gray-400 ml-2">
               <Calendar size={12} />
               {post.date}
             </div>
@@ -143,7 +145,9 @@ export default function BlogDetail() {
             {/* Tag/Category footer */}
             <div className="mt-20 pt-10 border-t border-brand-sand flex flex-wrap gap-4">
                <span className="text-xs font-bold uppercase tracking-widest text-gray-400 mr-2">Filed Under:</span>
-               <span className="text-xs font-black uppercase hover:text-brand-brown cursor-pointer transition-colors">#{post.category}</span>
+               {post.categories.map((cat, idx) => (
+                 <span key={idx} className="text-xs font-black uppercase hover:text-brand-brown cursor-pointer transition-colors">#{cat}</span>
+               ))}
                <span className="text-xs font-black uppercase hover:text-brand-brown cursor-pointer transition-colors">#Culture</span>
                <span className="text-xs font-black uppercase hover:text-brand-brown cursor-pointer transition-colors">#Storytelling</span>
             </div>
@@ -166,7 +170,11 @@ export default function BlogDetail() {
                     <div className="aspect-video rounded-2xl overflow-hidden mb-6 bg-brand-sand">
                       <img src={otherPost.image} alt={otherPost.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                     </div>
-                    <span className="text-[10px] font-bold text-gray-400 tracking-widest uppercase mb-3 block">{otherPost.category}</span>
+                    <div className="flex flex-wrap gap-2 mb-3">
+                      {otherPost.categories.map((cat, idx) => (
+                        <span key={idx} className="text-[10px] font-bold text-gray-400 tracking-widest uppercase">{cat}</span>
+                      ))}
+                    </div>
                     <h3 className="text-2xl font-black uppercase leading-tight group-hover:text-brand-brown transition-colors">
                       {otherPost.title}
                     </h3>

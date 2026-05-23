@@ -19,7 +19,7 @@ export default function Portfolio() {
         <header className="mb-20 max-w-4xl">
           <h1 className="text-5xl md:text-7xl font-black uppercase mb-8">The <span className="text-brand-brown italic font-serif lowercase">Archive.</span></h1>
           <p className="text-lg md:text-2xl font-light text-gray-500 leading-relaxed mb-12">
-            A selection of my work across PR, media production, and digital strategy. I partner with brands to craft narratives that aren't just heard, but felt. From plumbing giants to local podcasts, the goal remains the same: <span className="text-black font-medium">Impact.</span>
+            A curated selection of my Works across PR, Media Production, and Digital Strategy. I work with Brands to Build Narratives that go beyond being heard; they are Experienced. From Plumbing Enterprises to Local Podcasts, the objective is always the same: <span className="text-black font-medium">Impact.</span>
           </p>
           <div className="flex flex-wrap gap-4">
             {CATEGORIES.map(cat => (
