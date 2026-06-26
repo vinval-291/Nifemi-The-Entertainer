@@ -90,7 +90,7 @@ export default function Home() {
           className="relative aspect-[3/4] bg-brand-sand rounded-2xl overflow-hidden group"
         >
            <img 
-            src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=2576&auto=format&fit=crop" 
+            src="https://i.postimg.cc/VkjGftqw/DSC03528.jpg" 
             alt="NTE Profile" 
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             referrerPolicy="no-referrer"
