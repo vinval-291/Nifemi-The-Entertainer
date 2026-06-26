@@ -59,7 +59,7 @@ export default function Home() {
         <div className="flex gap-20 whitespace-nowrap animate-marquee">
           {[...Array(10)].map((_, i) => (
             <span key={i} className="text-white font-display text-lg uppercase tracking-widest font-black opacity-40">
-               * NIKE * VOGUE * SONY * WARNER MUSIC * LUXURY PR * CREATIVE DIRECTION * BRAND STRATEGY * 
+               * PROBINA NIGERIA LIMITED * BLINGS and SWISH * SHINE BRITE ENTERTAINMENT * FLUX LOGISTIX * FLUX ENERGY * CITY 105.1 FM * SANTUARY OF LIFE MINISTRIES * SL SOUNDS * COLLEGE OF HEALTH SCIENCE AND TECHNOLOGY *
             </span>
           ))}
         </div>

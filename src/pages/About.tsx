@@ -2,8 +2,7 @@ import { motion } from 'motion/react';
 
 export default function About() {
   const BRANDS = [
-    'Probina Nigeria', 'The City Pod', 'Lagos Fashion Week', 
-    'Sony Music', 'Warner Music', 'Nike', 'Vogue'
+    'Probina Nigeria', 'Blings and Swish', 'Shine Brite Entertainment', 'Flux Logistix', 'Flux Energy', 'CITY105.1FM LAGOS', 'SANCTUARY OF LIFE MINISTRIES', 'XL SOUNDS', 'COLLEGE OF HEALTH SCIENCE AND TECHNOLOGY'
   ];
 
   return (
@@ -20,19 +19,42 @@ export default function About() {
           <div className="lg:col-span-7">
             <div className="prose prose-lg md:prose-xl max-w-none text-gray-700 space-y-8 font-light leading-relaxed text-base md:text-lg">
                <p className="text-2xl md:text-4xl font-serif italic text-black leading-tight">
-                 "Culture isn't just something I consume; it's something I curate with intention."
+                 "Culture isn’t simply something I participate in; it’s something I shape, elevate, and reimagine with intention."
                </p>
                <p>
-                 I am Nifemi The Entertainer (NTE), a Public Relations Manager, Creative Director, and the Founder of <span className="text-black font-medium">Shine Brite Entertainment</span>. My work exists at the intersection of film, Photgraphy, Content Creation, Cultural Awareness Fashion and Strategic Storytelling.
+                 I am Nifemi The Entertainer (NTE) a Public Relations Manager, Creative Director, Media Strategist, Fashion Entrepreneur at Blings and Swish, and the Founder of <span className="text-black font-medium">Shine Brite Entertainment</span>.
                </p>
                <p>
-                 Starting my journey as a Content Creator and Filmmaker, I realized early on that brands didn't just need visibility, they needed a soul. So I've dedicated my career to ensuring that every campaign I lead feels like a cultural movement rather than just a broadcast.
+                 My work exists at the convergence of film, photography, content creation, cultural influence, fashion, and strategic brand storytelling — where ideas are transformed into experiences and brands become movements.
                </p>
                <p>
-                 From managing Digital Marketing for Industrial Giants like <span className="text-black font-medium">PROBINA NIGERIA LIMITED</span> to hosting critical cultural conversations on my Podcast called <span className="text-black font-medium">TTSNTE</span> (The Truth Sessions with Nifemi The Entertainer), My approach is always Hands-On and High-Standard.
+                 Over the years, I have led and executed strategic marketing and communication initiatives across industries, including managing digital marketing campaigns for established industrial brands such as PROBINA NIGERIA LIMITED, delivering work that blends commercial performance with authentic storytelling.
                </p>
                <p>
-                 Today, I act as a Bridge for Global Brands looking to tap into the Vibrant Energy of the African Creative Landscape, and for Local Talents aiming for Global Recognition.
+                 As the Founder of Shine Brite Entertainment, I have built a platform designed to bridge entertainment, media, culture, and brand strategy. Shine Brite Entertainment operates as more than a marketing agency it is a creative ecosystem focused on helping brands, talents, and organizations communicate with influence, scale with intention, and build cultural relevance across Africa and beyond.
+               </p>
+               <p>
+                 Through my podcast, TTSNTE (The Truth Sessions with Nifemi The Entertainer), I create space for meaningful conversations around culture, media, identity, creativity, and the future of African storytelling positioning voices, ideas, and perspectives at the center of global conversations.
+               </p>
+                <p>
+                 Beyond media and marketing, I am also the Founder of Blings and Swish an exclusive, high-profile fashion house created for a generation that values expression, status, identity, and cultural sophistication.
+               </p>
+                <p>
+                 Blings and Swish is envisioned as more than a fashion label; it is being built as a global luxury and lifestyle brand that challenges convention, sets trends, and redefines how African creativity is represented on the world stage. Rooted in exclusivity and elevated design philosophy, the brand seeks to merge contemporary fashion with cultural storytelling to create timeless influence across international markets.
+               </p>
+                <p>
+                 Today, I serve as a bridge between global brands seeking meaningful access to Africa’s vibrant creative economy and local creators ready to expand into international recognition.
+               </p>
+                <p>
+                 Whether through campaigns, fashion, media, storytelling, or creative direction, my mission remains the same:
+               </p>
+                <p>
+                 To build brands with substance.
+                 To create culture with purpose.
+                 To make African creativity impossible to ignore.
+               </p>
+               <p>
+               <b>Welcome to my world</b>
                </p>
             </div>
 
@@ -67,9 +89,9 @@ export default function About() {
         {/* Brands Section */}
         <section className="py-24 border-t border-brand-sand">
            <h2 className="text-xs uppercase tracking-[0.5em] font-black text-center mb-16 text-gray-400">Trusted By & Collaborated With</h2>
-           <div className="flex flex-wrap justify-center gap-x-20 gap-y-12">
+           <div className="flex flex-wrap justify-center items-center gap-x-6 sm:gap-x-12 md:gap-x-16 gap-y-8 md:gap-y-12 max-w-5xl mx-auto px-4">
               {BRANDS.map(brand => (
-                <span key={brand} className="text-4xl md:text-5xl font-display font-black uppercase opacity-20 hover:opacity-100 transition-opacity cursor-default">
+                <span key={brand} className="text-center text-lg sm:text-xl md:text-2xl lg:text-3xl font-display font-black uppercase opacity-20 hover:opacity-100 transition-opacity cursor-default max-w-xs md:max-w-md leading-tight">
                   {brand}
                 </span>
               ))}

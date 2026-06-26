@@ -11,16 +11,16 @@ export default function Footer() {
       <div className="section-container pt-16 pb-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 mb-20">
           <div className="lg:col-span-2">
-            <h2 className="text-4xl font-display font-black leading-tight mb-6">
+            <h4 className="text-2xl md:text-3xl font-display font-black leading-tight mb-6">
               LETS BUILD <br /> YOUR <span className="text-brand-brown italic">LEGACY</span>.
-            </h2>
+            </h4>
             <p className="text-gray-500 max-w-md mb-8">
-              Operating Globally from Lagos as a Digital Nomad, I work under the name Nifemi The Entertainer, delivering PR Strategy, Creative Direction, Filmmaking, Cultural Integration, and Campaign Consulting Services Worldwide.
+              Operating globally from Lagos under the name Nifemi The Entertainer (NTE), I lead Culture-driven work across Creative Direction, Strategic Marketing, and Campaign Consulting through Shine Brite Entertainment while building Blings and Swish into a new standard of exclusive African fashion with global influence.
             </p>
             <div className="flex gap-4">
               <SocialIcon icon={<Instagram size={20} />} href="https://www.instagram.com/nifemitheentertainer" />
               <SocialIcon icon={<Twitter size={20} />} href="https://x.com/nifeentertainer" />
-              <SocialIcon icon={<Linkedin size={20} />} href="https://linkedin.com/in/nifemi-ajisefinni" />
+              <SocialIcon icon={<Linkedin size={20} />} href="https://linkedin.com/in/nifemi-the-entertainer-74115a231" />
               <SocialIcon icon={<Mail size={20} />} href="mailto:nifemitheentertainer@gmail.com" />
             </div>
           </div>

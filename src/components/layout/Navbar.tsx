@@ -111,7 +111,7 @@ export default function Navbar() {
               <LayoutDashboard size={14} />
             </Link>
           )}
-          <a href="https://wa.me/2348137790608" target="_blank" rel="noreferrer" className="btn-primary py-2 px-6 text-[10px]">
+          <a href="https://wa.me/2348104692461" target="_blank" rel="noreferrer" className="btn-primary py-2 px-6 text-[10px]">
             Work With Me
           </a>
         </div>
@@ -182,7 +182,7 @@ export default function Navbar() {
                 )}
               </div>
             ))}
-            <a href="https://wa.me/2348137790608" target="_blank" rel="noreferrer" className="btn-primary w-full text-center" onClick={() => setIsOpen(false)}>
+            <a href="https://wa.me/2348104692461" target="_blank" rel="noreferrer" className="btn-primary w-full text-center" onClick={() => setIsOpen(false)}>
               Work With Me
             </a>
 

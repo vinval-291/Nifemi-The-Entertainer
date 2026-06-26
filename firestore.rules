@@ -12,9 +12,9 @@ service cloud.firestore {
     function isAdmin() {
       return isSignedIn() && 
              request.auth.token.email != null &&
-             (request.auth.token.email.toLower() == "kuteyioluwaloyevincent291@gmail.com" || 
-              request.auth.token.email.toLower() == "vinvaldigital291@gmail.com" ||
-              request.auth.token.email.toLower() == "dev@davricgroup.com");
+             (request.auth.token.email.lower() == "kuteyioluwaloyevincent291@gmail.com" || 
+              request.auth.token.email.lower() == "vinvaldigital291@gmail.com" ||
+              request.auth.token.email.lower() == "dev@davricgroup.com");
     }
 
     function isValidBlogPost(data) {

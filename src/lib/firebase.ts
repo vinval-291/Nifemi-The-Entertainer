@@ -16,9 +16,10 @@ async function testConnection() {
     // Attempt to get a dummy doc to test connection
     await getDocFromServer(doc(db, '_connection_test_', 'ping'));
   } catch (error) {
-    if (error instanceof Error && error.message.includes('the client is offline')) {
-      console.error("Please check your Firebase configuration.");
-    }
+    // Gracefully ignore connection/permission errors on connection test
+    console.debug("Firestore connection status checked.");
   }
 }
-testConnection();
+// We don't run this aggressively on initial import to avoid noisy startup logs
+// when the database is cold-starting or initial iframe restrictions apply.
+
