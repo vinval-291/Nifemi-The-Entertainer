@@ -7,7 +7,7 @@ const VIDEOS = [
     id: 1, 
     title: 'Probina Nigeria Brand Film', 
     type: 'Corporate Showcase', 
-    thumb: 'https://i.postimg.cc/3rcrrFdV/probia-1.jpg', 
+    thumb: 'https://i.postimg.cc/02HvxYyj/probina-1.jpg', 
     embedUrl: 'https://player.vimeo.com/video/1204857332?badge=0&autopause=0&player_id=0&app_id=58479',
     isVertical: false
   },
@@ -15,15 +15,23 @@ const VIDEOS = [
     id: 2, 
     title: 'Probina Commercial II', 
     type: 'Campaign', 
-    thumb: 'https://i.postimg.cc/tRMRRNYf/probia-2.jpg', 
+    thumb: 'https://i.postimg.cc/7YQ4D3ZZ/probina-2.jpg', 
     embedUrl: 'https://player.vimeo.com/video/1204858017?badge=0&autopause=0&player_id=0&app_id=58479',
     isVertical: true
+  },
+  { 
+    id: 7, 
+    title: 'Flux Self Storage', 
+    type: 'Corporate Showcase', 
+    thumb: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2670&auto=format&fit=crop', 
+    embedUrl: 'https://player.vimeo.com/video/1204873351?badge=0&autopause=0&player_id=0&app_id=58479',
+    isVertical: false
   },
   { 
     id: 3, 
     title: 'Probina Commercial III', 
     type: 'Promotion', 
-    thumb: 'https://i.postimg.cc/ZYMYYxCQ/probia-3.jpg', 
+    thumb: 'https://i.postimg.cc/28XYmQSC/probina-3.jpg', 
     embedUrl: 'https://player.vimeo.com/video/1204858016?badge=0&autopause=0&player_id=0&app_id=58479',
     isVertical: true
   },
@@ -31,7 +39,7 @@ const VIDEOS = [
     id: 4, 
     title: 'Probina Commercial IV', 
     type: 'Product Showcase', 
-    thumb: 'https://i.postimg.cc/RCDCCLNp/probia-4.jpg', 
+    thumb: 'https://i.postimg.cc/GhpRZ7dC/probina-5.jpg', 
     embedUrl: 'https://player.vimeo.com/video/1204858015?badge=0&autopause=0&player_id=0&app_id=58479',
     isVertical: true
   },
@@ -51,10 +59,77 @@ const VIDEOS = [
     embedUrl: 'https://player.vimeo.com/video/1204859102?badge=0&autopause=0&player_id=0&app_id=58479',
     isVertical: false
   },
+  { 
+    id: 8, 
+    title: 'Cold Chain Services', 
+    type: 'Logistics Motion', 
+    thumb: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=2670&auto=format&fit=crop', 
+    embedUrl: 'https://player.vimeo.com/video/1204873354?badge=0&autopause=0&player_id=0&app_id=58479',
+    isVertical: false
+  },
+];
+
+const NIFEMI_VIDEOS = [
+  {
+    id: 101,
+    title: 'Audacity',
+    type: 'Nifemi The Entertainer',
+    thumb: 'https://img.youtube.com/vi/cdEIy5yrm0A/hqdefault.jpg',
+    embedUrl: 'https://www.youtube.com/embed/cdEIy5yrm0A',
+    isVertical: true
+  },
+  {
+    id: 102,
+    title: 'Reminiscing',
+    type: 'Nifemi The Entertainer',
+    thumb: 'https://img.youtube.com/vi/SA_7OI-iKsE/hqdefault.jpg',
+    embedUrl: 'https://www.youtube.com/embed/SA_7OI-iKsE',
+    isVertical: true
+  },
+  {
+    id: 103,
+    title: 'Bring BAck our Little Ones',
+    type: 'Nifemi The Entertainer',
+    thumb: 'https://img.youtube.com/vi/eg6rAiIk3pc/hqdefault.jpg',
+    embedUrl: 'https://www.youtube.com/embed/eg6rAiIk3pc',
+    isVertical: true
+  },
+  {
+    id: 104,
+    title: 'Energy and Vibes IV',
+    type: 'Nifemi The Entertainer',
+    thumb: 'https://img.youtube.com/vi/KqYaTdudLYM/hqdefault.jpg',
+    embedUrl: 'https://www.youtube.com/embed/KqYaTdudLYM',
+    isVertical: true
+  },
+  {
+    id: 105,
+    title: 'TTSNTE Pre-Season introduction S3',
+    type: 'Nifemi The Entertainer',
+    thumb: 'https://img.youtube.com/vi/V4FBD6Ory4E/hqdefault.jpg',
+    embedUrl: 'https://www.youtube.com/embed/V4FBD6Ory4E',
+    isVertical: false
+  },
+  {
+    id: 106,
+    title: 'TTSNTE Pre-Season Short Video 1',
+    type: 'Nifemi The Entertainer',
+    thumb: 'https://img.youtube.com/vi/MP73eDwLgZs/hqdefault.jpg',
+    embedUrl: 'https://www.youtube.com/embed/MP73eDwLgZs',
+    isVertical: false
+  },
+  {
+    id: 107,
+    title: 'TTSNTE with Mofehintola (TTSNTE S2)',
+    type: 'Nifemi The Entertainer',
+    thumb: 'https://img.youtube.com/vi/0qHfgqCFx1Y/hqdefault.jpg',
+    embedUrl: 'https://www.youtube.com/embed/0qHfgqCFx1Y',
+    isVertical: false
+  }
 ];
 
 export default function VideoShowcase() {
-  const [selectedVideo, setSelectedVideo] = useState<typeof VIDEOS[0] | null>(null);
+  const [selectedVideo, setSelectedVideo] = useState<typeof VIDEOS[0] | typeof NIFEMI_VIDEOS[0] | null>(null);
 
   return (
     <div className="pt-24 md:pt-32 pb-16 md:pb-24">
@@ -66,6 +141,54 @@ export default function VideoShowcase() {
         {/* Creative Masonry Grid to support mixed portrait (9:16) and landscape (16:9) ratios beautifully */}
         <div className="columns-1 md:columns-2 lg:columns-3 gap-8 space-y-8 [column-fill:balance] px-2 md:px-0">
           {VIDEOS.map((vid) => (
+            <motion.div
+              key={vid.id}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="break-inside-avoid mb-8 group cursor-pointer block"
+              onClick={() => setSelectedVideo(vid)}
+            >
+              <div className={`relative rounded-2xl md:rounded-3xl overflow-hidden mb-4 md:mb-6 bg-black shadow-lg transition-all duration-500 ring-1 ring-black/5
+                ${vid.isVertical ? 'aspect-[9/16]' : 'aspect-video'}`}
+              >
+                 <img 
+                   src={vid.thumb} 
+                   alt={vid.title} 
+                   className="w-full h-full object-cover opacity-70 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
+                   referrerPolicy="no-referrer"
+                 />
+                 <div className="absolute inset-0 flex items-center justify-center bg-black/10 group-hover:bg-black/20 transition-colors">
+                    <div className="w-16 h-16 md:w-20 md:h-20 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white scale-90 group-hover:scale-100 transition-transform shadow-xl border border-white/30">
+                       <Play fill="white" size={28} className="md:w-8 md:h-8" />
+                    </div>
+                 </div>
+              </div>
+              <div className="px-2">
+                <span className="text-[10px] md:text-xs uppercase tracking-widest text-brand-brown font-bold mb-1 md:mb-2 block">{vid.type}</span>
+                <h3 className="text-xl md:text-2xl font-display font-black uppercase leading-tight group-hover:text-brand-brown transition-colors">{vid.title}</h3>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Divider */}
+        <div className="my-24 border-t border-brand-sand/40" />
+
+        {/* Nifemi Section Header */}
+        <div className="mb-12">
+          <span className="text-[11px] uppercase tracking-[0.3em] font-black text-brand-brown block mb-3 px-2 md:px-0">Spotlight Artist</span>
+          <h2 className="text-4xl md:text-6xl font-display font-black uppercase mb-6 px-2 md:px-0">
+            Nifemi <span className="text-transparent [-webkit-text-stroke:1px_black]">The Entertainer.</span>
+          </h2>
+          <p className="text-base md:text-xl font-light text-gray-500 max-w-3xl leading-relaxed px-2 md:px-0">
+            Discover a curated collection of energetic performances, stand-up comedy acts, hosting highlight reels, and creative viral shorts by Nifemi The Entertainer.
+          </p>
+        </div>
+
+        {/* Nifemi Videos Masonry Grid */}
+        <div className="columns-1 md:columns-2 lg:columns-3 gap-8 space-y-8 [column-fill:balance] px-2 md:px-0">
+          {NIFEMI_VIDEOS.map((vid) => (
             <motion.div
               key={vid.id}
               initial={{ opacity: 0, y: 30 }}

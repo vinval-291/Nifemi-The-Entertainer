@@ -76,7 +76,7 @@ export default function About() {
           <div className="lg:col-span-5 sticky top-32">
              <div className="aspect-[4/5] bg-brand-sand rounded-3xl overflow-hidden shadow-2xl relative">
                 <img 
-                  src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=2574&auto=format&fit=crop" 
+                  src="https://i.postimg.cc/sfc0C3DL/Nifemi-The-Entertainer-(1-of-12).jpg" 
                   alt="Portrait" 
                   className="w-full h-full object-cover"
                   referrerPolicy="no-referrer"

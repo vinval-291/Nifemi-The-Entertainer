@@ -5,7 +5,7 @@ const SERVICES = [
   {
     icon: <Target size={40} strokeWidth={1.5} />,
     title: 'PR & Media Strategy',
-    image: 'https://images.unsplash.com/photo-1557804506-669a67965ba0?q=80&w=2574&auto=format&fit=crop',
+    image: 'https://i.postimg.cc/sfc0C3DL/Nifemi-The-Entertainer-(1-of-12).jpg',
     description: 'I develop comprehensive communication frameworks that build trust, manage reputation, and increase brand authority across digital and traditional media.',
     process: ['Landscape Analysis', 'Narrative Development', 'Media Outreach', 'Crisis Management']
   },
