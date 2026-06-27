@@ -54,7 +54,7 @@ export default function Contact() {
             <div className="space-y-8">
               <ContactItem icon={<Phone size={20} />} label="Inquiries" value="+234 810 469 2461" />
               <ContactItem icon={<Send size={20} />} label="Email" value="nifemitheentertainer@gmail.com" />
-              <ContactItem icon={<MapPin size={20} />} label="Main Studio" value="Victoria Island, Lagos, NG" />
+              <ContactItem icon={<MapPin size={20} />} label="Main Studio" value="Lagos State, Nigeria" />
             </div>
             
             <div className="mt-16 pt-16 border-t border-brand-sand">

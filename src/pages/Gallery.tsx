@@ -63,15 +63,14 @@ const CAMPAIGNS = [
   }
 ];
 
-const IMAGES = [
-  { id: 1, src: 'https://images.unsplash.com/photo-1579338559194-a162d19bf842?q=80&w=2574&auto=format&fit=crop', aspect: 'portrait' },
-  { id: 2, src: 'https://images.unsplash.com/photo-1549490349-8643362247b5?q=80&w=2574&auto=format&fit=crop', aspect: 'square' },
-  { id: 3, src: 'https://images.unsplash.com/photo-1594938298603-c8148c4dae35?q=80&w=2680&auto=format&fit=crop', aspect: 'landscape' },
-  { id: 4, src: 'https://images.unsplash.com/photo-1581333100576-b73967322927?q=80&w=2574&auto=format&fit=crop', aspect: 'portrait' },
-  { id: 5, src: 'https://images.unsplash.com/photo-1537832816519-689ad163238b?q=80&w=2659&auto=format&fit=crop', aspect: 'tall' },
-  { id: 6, src: 'https://images.unsplash.com/photo-1534030347209-467a5bd55b8a?q=80&w=2574&auto=format&fit=crop', aspect: 'landscape' },
-  { id: 7, src: 'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=2670&auto=format&fit=crop', aspect: 'square' },
-  { id: 8, src: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=2576&auto=format&fit=crop', aspect: 'portrait' },
+export const IMAGES = [
+  { id: 1, src: 'https://i.postimg.cc/d3rsyf06/Saint-Gregory-(1-of-10)-jpg.jpg', aspect: 'landscape' },
+  { id: 2, src: 'https://i.postimg.cc/wvSx3z9T/Saint-Gregory-(10-of-10)-jpg.jpg', aspect: 'landscape' },
+  { id: 3, src: 'https://i.postimg.cc/ydw6WK79/Saint-Gregory-(2-of-10)-jpg.jpg', aspect: 'landscape' },
+  { id: 4, src: 'https://i.postimg.cc/tJWqxcgM/Saint-Gregory-(4-of-10)-jpg.jpg', aspect: 'landscape' },
+  { id: 5, src: 'https://i.postimg.cc/j5GqCTRq/Saint-Gregory-(5-of-10)-jpg.jpg', aspect: 'landscape' },
+  { id: 6, src: 'https://i.postimg.cc/4yVf903w/Saint-Gregory-(7-of-10)-jpg.jpg', aspect: 'landscape' },
+  { id: 7, src: 'https://i.postimg.cc/gJfcrpGY/Saint-Gregory-(8-of-10)-jpg.jpg', aspect: 'landscape' },
 ];
 
 export default function Gallery() {

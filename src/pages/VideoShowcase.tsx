@@ -23,7 +23,7 @@ const VIDEOS = [
     id: 7, 
     title: 'Flux Self Storage', 
     type: 'Corporate Showcase', 
-    thumb: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=2670&auto=format&fit=crop', 
+    thumb: 'https://i.postimg.cc/ZYwFsKJb/Flux-self-storage-wall-banner-Flux-Warehouse-wall-design.jpg', 
     embedUrl: 'https://player.vimeo.com/video/1204873351?badge=0&autopause=0&player_id=0&app_id=58479',
     isVertical: false
   },
@@ -63,7 +63,7 @@ const VIDEOS = [
     id: 8, 
     title: 'Cold Chain Services', 
     type: 'Logistics Motion', 
-    thumb: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=2670&auto=format&fit=crop', 
+    thumb: 'https://i.postimg.cc/BZmc7QJp/WALL-DESIGN-1.png', 
     embedUrl: 'https://player.vimeo.com/video/1204873354?badge=0&autopause=0&player_id=0&app_id=58479',
     isVertical: false
   },

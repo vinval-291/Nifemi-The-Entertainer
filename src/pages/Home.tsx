@@ -1,9 +1,11 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import type { ReactNode } from 'react';
 import { ArrowUpRight, TrendingUp, Sparkles, Camera, BookOpen } from 'lucide-react';
 import { PROJECTS } from '../constants/projects';
 import { BLOG_POSTS } from '../constants/blog';
+import { IMAGES } from './Gallery';
 
 const PageTransition = ({ children }: { children: ReactNode }) => (
   <motion.div
@@ -17,6 +19,58 @@ const PageTransition = ({ children }: { children: ReactNode }) => (
 );
 
 export default function Home() {
+  const [diaryImages, setDiaryImages] = useState<string[]>([]);
+
+  useEffect(() => {
+    const photoPageImages = IMAGES.map(img => img.src);
+    const projectImages: string[] = [];
+    
+    PROJECTS.forEach(p => {
+      const pImages: string[] = [];
+      if (p.image) pImages.push(p.image);
+      if (p.gallery) pImages.push(...p.gallery);
+      if (p.carousels) {
+        p.carousels.forEach(c => {
+          if (c.images) pImages.push(...c.images);
+        });
+      }
+      
+      const uniquePImages = pImages.filter(src => src && !photoPageImages.includes(src));
+      if (uniquePImages.length > 0) {
+        projectImages.push(...uniquePImages);
+      }
+    });
+
+    const shuffleArray = (arr: string[]) => {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    };
+
+    const shuffledPhotos = shuffleArray(photoPageImages);
+    const shuffledProjects = shuffleArray(projectImages);
+    const selected: string[] = [];
+    
+    if (shuffledPhotos.length > 0) {
+      selected.push(...shuffledPhotos.slice(0, 2));
+    }
+    if (shuffledProjects.length > 0) {
+      selected.push(...shuffledProjects.slice(0, 2));
+    }
+
+    const remaining = 4 - selected.length;
+    if (remaining > 0) {
+      const pool = shuffleArray(Array.from(new Set([...photoPageImages, ...projectImages])));
+      const unused = pool.filter(src => !selected.includes(src));
+      selected.push(...unused.slice(0, remaining));
+    }
+
+    setDiaryImages(shuffleArray(selected).slice(0, 4));
+  }, []);
+
   return (
     <PageTransition>
       {/* Hero Section */}
@@ -156,10 +210,10 @@ export default function Home() {
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-             {[1, 2, 3, 4].map(id => (
-               <div key={id} className="aspect-square overflow-hidden rounded-xl grayscale hover:grayscale-0 transition-all duration-700 cursor-pointer">
+             {diaryImages.map((src, index) => (
+               <div key={index} className="aspect-square overflow-hidden rounded-xl grayscale hover:grayscale-0 transition-all duration-700 cursor-pointer">
                   <img 
-                    src={`https://images.unsplash.com/photo-${id === 1 ? '1549490349-8643362247b5' : id === 2 ? '1573497019940-1c28c88b4f3e' : id === 3 ? '1523381235312-7067885b546e' : '1505236858219-8359eb29e329'}?q=80&w=800&auto=format&fit=crop`} 
+                    src={src} 
                     alt="Gallery item"
                     className="w-full h-full object-cover hover:scale-110 transition-transform duration-700"
                     referrerPolicy="no-referrer"

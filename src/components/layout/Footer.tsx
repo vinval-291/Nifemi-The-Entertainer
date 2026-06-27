@@ -53,7 +53,7 @@ export default function Footer() {
 
         <div className="pt-10 border-t border-brand-sand flex flex-col md:flex-row justify-between items-center gap-8">
           <div className="flex flex-col gap-2 items-center md:items-start">
-            <p className="text-[10px] uppercase tracking-widest text-gray-400 font-bold">© {currentYear} NTE GLOBAL. ALL RIGHTS RESERVED.</p>
+            <p className="text-[10px] uppercase tracking-widest text-gray-400 font-bold">© {currentYear} NTE (NIFEMI THE ENTERTAINER).</p>
             <div className="flex gap-6 text-[9px] uppercase tracking-widest text-gray-400 font-medium">
               <button className="hover:text-black">Privacy Policy</button>
               <button className="hover:text-black">Terms of Service</button>
