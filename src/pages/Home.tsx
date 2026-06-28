@@ -77,7 +77,7 @@ export default function Home() {
       <section className="relative h-screen flex items-center overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img 
-            src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2670&auto=format&fit=crop" 
+            src="https://i.postimg.cc/XJPN5Zyc/nte.jpg" 
             alt="NTE Hero" 
             className="w-full h-full object-cover brightness-[70%]"
             referrerPolicy="no-referrer"
@@ -90,15 +90,20 @@ export default function Home() {
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.5, duration: 0.8 }}
-            className="max-w-3xl"
+            className="max-w-4xl lg:max-w-5xl"
           >
             <span className="text-white text-xs uppercase tracking-[0.4em] font-bold mb-6 block">PR Manager | Creative Director</span>
-            <h1 className="text-white text-4xl sm:text-6xl md:text-8xl lg:text-[10rem] leading-[0.85] font-black uppercase mb-8">
-              CRAFTING<br />
-              <span className="text-transparent border-t-white [-webkit-text-stroke:1px_white]">INFLUENCE.</span>
+            <h1 className="text-white text-3xl sm:text-5xl md:text-7xl lg:text-8xl leading-[1.05] font-black uppercase mb-8">
+              <span className="block whitespace-nowrap">
+                <span className="text-brand-brown">Building</span> Brands
+              </span>
+              <span className="block text-transparent [-webkit-text-stroke:1px_white] whitespace-nowrap">
+                Shaping <span className="text-brand-brown [-webkit-text-stroke:0px]">Culture.</span>
+              </span>
             </h1>
             <p className="text-white/80 text-lg md:text-xl font-light max-w-lg mb-10 leading-relaxed">
-              Shaping culture through strategic PR and visionary creative direction for global brands and creative icons.
+              I Help Brands Grow Visibility, Build Influence, and Connect with the Right Audience through Strategic PR, 
+              Creative Direction, and Result-Driven Digital Marketing.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link to="/portfolio" className="btn-primary backdrop-blur-sm bg-white text-black border-none px-12">View Portfolio</Link>

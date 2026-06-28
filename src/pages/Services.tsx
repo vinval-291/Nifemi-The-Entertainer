@@ -12,21 +12,21 @@ const SERVICES = [
   {
     icon: <Presentation size={40} strokeWidth={1.5} />,
     title: 'Creative Direction',
-    image: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2670&auto=format&fit=crop',
+    image: 'https://i.postimg.cc/02HvxYyj/probina-1.jpg',
     description: 'I translate your creative and brand values into visual excellence. I curate the mood, the look, and the feel of campaigns that command attention and drive culture.',
     process: ['Concept Discovery', 'Moodboarding', 'Photography Direction', 'Visual Identity']
   },
   {
     icon: <BarChart3 size={40} strokeWidth={1.5} />,
     title: 'Brand Positioning',
-    image: 'https://images.unsplash.com/photo-1434626881859-194d67b2b86f?q=80&w=2670&auto=format&fit=crop',
+    image: 'https://i.postimg.cc/DzG5mTQ1/Flux-Air-Logistics-Carousel-cover.jpg',
     description: 'I carve out your unique space in the market. I help you find your voice and resonate with the modern consumer through strategic alignment.',
     process: ['Competitor Research', 'Tone of Voice', 'Value Propositions', 'Market Entry Strategy']
   },
   {
     icon: <MessageCircle size={40} strokeWidth={1.5} />,
     title: 'Social Media Management',
-    image: 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?q=80&w=2574&auto=format&fit=crop',
+    image: 'https://i.postimg.cc/05MM5vTy/8-Social-Media-Management-Tools-Free-Premium-For-Businesses.jpg',
     description: 'From ideation to execution. I manage the end-to-end lifecycle of high-impact content, ensuring every touchpoint delivers on the vision through targeted marketing.',
     process: ['Content Marketing', 'Community Growth', 'Asset Production', 'Influencer Marketing']
   }
