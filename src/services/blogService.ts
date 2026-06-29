@@ -52,29 +52,56 @@ function handleFirestoreError(error: unknown, operationType: OperationType, path
 
 const COLLECTION_NAME = 'blogPosts';
 
+const DELETED_POSTS_KEY = 'deleted_blog_posts';
+
+function getDeletedPostIds(): string[] {
+  try {
+    return JSON.parse(localStorage.getItem(DELETED_POSTS_KEY) || '[]');
+  } catch {
+    return [];
+  }
+}
+
+function addDeletedPostId(id: string | number) {
+  try {
+    const ids = getDeletedPostIds();
+    const strId = String(id);
+    if (!ids.includes(strId)) {
+      ids.push(strId);
+      localStorage.setItem(DELETED_POSTS_KEY, JSON.stringify(ids));
+    }
+  } catch (error) {
+    console.error('Failed to save deleted post ID to localStorage', error);
+  }
+}
+
 export const blogService = {
   async getAllPosts(): Promise<BlogPost[]> {
+    const deletedIds = getDeletedPostIds();
     try {
       const q = query(collection(db, COLLECTION_NAME), orderBy('createdAt', 'desc'));
       const snapshot = await getDocs(q);
-      const dbPosts = snapshot.docs.map(doc => {
-        const data = doc.data();
-        const categories = data.categories || (data.category ? [data.category] : []);
-        const { category, ...rest } = data;
-        return {
-          id: doc.id as any,
-          ...rest,
-          categories,
-          status: data.status || 'published', // Fallback for old docs
-          createdAt: data.createdAt?.toDate?.() || data.createdAt,
-          updatedAt: data.updatedAt?.toDate?.() || data.updatedAt,
-        } as unknown as BlogPost;
-      });
+      const dbPosts = snapshot.docs
+        .map(doc => {
+          const data = doc.data();
+          const categories = data.categories || (data.category ? [data.category] : []);
+          const { category, ...rest } = data;
+          return {
+            id: doc.id as any,
+            ...rest,
+            categories,
+            status: data.status || 'published', // Fallback for old docs
+            createdAt: data.createdAt?.toDate?.() || data.createdAt,
+            updatedAt: data.updatedAt?.toDate?.() || data.updatedAt,
+          } as unknown as BlogPost;
+        })
+        .filter(post => !deletedIds.includes(String(post.id)));
 
-      // Combine with static posts, ensuring no duplicates by slug
+      // Combine with static posts, ensuring no duplicates by slug and omitting deleted ones
       const allPosts = [...dbPosts];
       BLOG_POSTS.forEach(staticPost => {
-        if (!allPosts.some(p => p.slug === staticPost.slug)) {
+        const isDeleted = deletedIds.includes(String(staticPost.id));
+        if (!isDeleted && !allPosts.some(p => p.slug === staticPost.slug)) {
           allPosts.push(staticPost);
         }
       });
@@ -82,20 +109,24 @@ export const blogService = {
       return allPosts;
     } catch (error) {
       console.warn('Firestore failed, falling back to static posts:', error);
-      return BLOG_POSTS;
+      return BLOG_POSTS.filter(post => !deletedIds.includes(String(post.id)));
     }
   },
 
   async getPostBySlug(slug: string): Promise<BlogPost | null> {
+    const deletedIds = getDeletedPostIds();
     try {
       // First check static posts
       const staticPost = BLOG_POSTS.find(p => p.slug === slug);
-      if (staticPost) return staticPost;
+      if (staticPost) {
+        if (deletedIds.includes(String(staticPost.id))) return null;
+        return staticPost;
+      }
 
       // Then check DB
       const q = query(collection(db, COLLECTION_NAME));
       const snapshot = await getDocs(q);
-      const dbDoc = snapshot.docs.find(d => d.data().slug === slug);
+      const dbDoc = snapshot.docs.find(d => d.data().slug === slug && !deletedIds.includes(String(d.id)));
       
       if (!dbDoc) return null;
       
@@ -110,7 +141,8 @@ export const blogService = {
       } as unknown as BlogPost;
     } catch (error) {
       const staticPost = BLOG_POSTS.find(p => p.slug === slug);
-      return staticPost || null;
+      if (staticPost && !deletedIds.includes(String(staticPost.id))) return staticPost;
+      return null;
     }
   },
 
@@ -140,12 +172,16 @@ export const blogService = {
     }
   },
 
-  async deletePost(id: string): Promise<void> {
-    try {
-      const docRef = doc(db, COLLECTION_NAME, id);
-      await deleteDoc(docRef);
-    } catch (error) {
-      handleFirestoreError(error, OperationType.DELETE, `${COLLECTION_NAME}/${id}`);
+  async deletePost(id: string | number): Promise<void> {
+    addDeletedPostId(id);
+    const isStatic = !isNaN(Number(id));
+    if (!isStatic) {
+      try {
+        const docRef = doc(db, COLLECTION_NAME, String(id));
+        await deleteDoc(docRef);
+      } catch (error) {
+        handleFirestoreError(error, OperationType.DELETE, `${COLLECTION_NAME}/${id}`);
+      }
     }
   }
 };

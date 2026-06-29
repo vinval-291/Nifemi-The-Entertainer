@@ -13,7 +13,10 @@ import {
   Trash2,
   Mail,
   ExternalLink,
-  MessageSquare
+  MessageSquare,
+  BookOpen,
+  Plus,
+  Edit2
 } from 'lucide-react';
 import { 
   LineChart, 
@@ -28,7 +31,9 @@ import {
 } from 'recharts';
 import { analyticsService, AnalyticsEvent } from '../services/analyticsService';
 import { contactService, ContactInquiry } from '../services/contactService';
-import { useNavigate } from 'react-router-dom';
+import { blogService } from '../services/blogService';
+import { BlogPost } from '../constants/blog';
+import { useNavigate, Link } from 'react-router-dom';
 import { auth } from '../lib/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { isUserAdmin } from '../constants/admin';
@@ -40,21 +45,24 @@ export default function AdminDashboard() {
   const [events, setEvents] = useState<AnalyticsEvent[]>([]);
   const [totalVisitorCount, setTotalVisitorCount] = useState(0);
   const [inquiries, setInquiries] = useState<ContactInquiry[]>([]);
+  const [posts, setPosts] = useState<BlogPost[]>([]);
   const [timeRange, setTimeRange] = useState(7);
-  const [activeTab, setActiveTab] = useState<'analytics' | 'inquiries'>('analytics');
+  const [activeTab, setActiveTab] = useState<'analytics' | 'inquiries' | 'journals'>('analytics');
   const navigate = useNavigate();
 
   const fetchStats = async () => {
     setLoading(true);
     try {
-      const [data, total, inqs] = await Promise.all([
+      const [data, total, inqs, allPosts] = await Promise.all([
         analyticsService.getRecentStats(timeRange),
         analyticsService.getTotalVisitorsCount(),
-        contactService.getAllInquiries()
+        contactService.getAllInquiries(),
+        blogService.getAllPosts()
       ]);
       setEvents(data);
       setTotalVisitorCount(total);
       setInquiries(inqs);
+      setPosts(allPosts);
     } catch (err) {
       console.error('Failed to load dashboard data:', err);
     } finally {
@@ -89,6 +97,18 @@ export default function AdminDashboard() {
     } catch (error) {
       console.error('Failed to delete inquiry:', error);
       alert('Failed to delete contact inquiry.');
+    }
+  };
+
+  const handleDeletePost = async (id: string | number) => {
+    if (!window.confirm('Are you sure you want to delete this journal post?')) return;
+    
+    try {
+      await blogService.deletePost(id);
+      setPosts(prev => prev.filter(post => post.id !== id));
+    } catch (error) {
+      console.error('Failed to delete post:', error);
+      alert('Failed to delete the post.');
     }
   };
 
@@ -196,9 +216,19 @@ export default function AdminDashboard() {
             <span className="bg-brand-brown text-white text-[9px] px-2 py-0.5 rounded-full font-bold ml-1">{inquiries.length}</span>
           )}
         </button>
+        <button 
+          onClick={() => setActiveTab('journals')}
+          className={`pb-4 text-xs font-black uppercase tracking-widest border-b-2 transition-all flex items-center gap-2 cursor-pointer ${
+            activeTab === 'journals' ? 'border-brand-brown text-brand-brown' : 'border-transparent text-gray-400 hover:text-black'
+          }`}
+        >
+          Manage Journal {posts.length > 0 && (
+            <span className="bg-brand-brown text-white text-[9px] px-2 py-0.5 rounded-full font-bold ml-1">{posts.length}</span>
+          )}
+        </button>
       </div>
 
-      {activeTab === 'analytics' ? (
+      {activeTab === 'analytics' && (
         <>
           {/* Overview Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
@@ -313,7 +343,9 @@ export default function AdminDashboard() {
             </div>
           </div>
         </>
-      ) : (
+      )}
+
+      {activeTab === 'inquiries' && (
         <div className="space-y-8">
           <div className="flex items-center justify-between mb-2">
             <h3 className="text-xs font-black uppercase tracking-widest flex items-center gap-2">
@@ -388,6 +420,119 @@ export default function AdminDashboard() {
                   </div>
                 </div>
               ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {activeTab === 'journals' && (
+        <div className="space-y-8">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-2">
+            <h3 className="text-xs font-black uppercase tracking-widest flex items-center gap-2">
+              <BookOpen size={16} /> Journal Entries ({posts.length})
+            </h3>
+            <Link 
+              to="/admin/blog/new" 
+              className="inline-flex items-center justify-center gap-2 bg-brand-brown text-white hover:bg-black transition-colors px-5 py-3 rounded-full text-[10px] font-black uppercase tracking-widest"
+            >
+              <Plus size={14} /> New Journal Entry
+            </Link>
+          </div>
+
+          {posts.length === 0 ? (
+            <div className="text-center bg-white border border-brand-sand rounded-3xl p-16 shadow-sm">
+              <div className="w-16 h-16 rounded-full bg-brand-beige text-brand-brown flex items-center justify-center mx-auto mb-6">
+                <BookOpen size={24} />
+              </div>
+              <h3 className="text-2xl font-black uppercase mb-4 text-brand-brown">No Entries</h3>
+              <p className="text-gray-500 max-w-sm mx-auto font-light text-sm mb-6">
+                No journal posts created yet. Get started by writing a new one.
+              </p>
+              <Link 
+                to="/admin/blog/new" 
+                className="inline-flex items-center justify-center gap-2 bg-brand-brown text-white hover:bg-black transition-colors px-6 py-3 rounded-full text-[10px] font-black uppercase tracking-widest"
+              >
+                <Plus size={14} /> Create first post
+              </Link>
+            </div>
+          ) : (
+            <div className="bg-white border border-brand-sand rounded-3xl overflow-hidden shadow-sm">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="border-b border-brand-sand bg-brand-beige/50">
+                      <th className="p-6 text-[10px] font-black uppercase tracking-widest text-gray-400">Post Details</th>
+                      <th className="p-6 text-[10px] font-black uppercase tracking-widest text-gray-400">Categories</th>
+                      <th className="p-6 text-[10px] font-black uppercase tracking-widest text-gray-400">Status</th>
+                      <th className="p-6 text-[10px] font-black uppercase tracking-widest text-gray-400 text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-brand-sand/60">
+                    {posts.map((post) => {
+                      const isStatic = !isNaN(Number(post.id));
+                      return (
+                        <tr key={post.id} className="hover:bg-brand-beige/20 transition-colors">
+                          <td className="p-6">
+                            <div className="flex items-center gap-4">
+                              <img 
+                                src={post.image} 
+                                alt={post.title} 
+                                className="w-14 h-10 object-cover rounded-lg flex-shrink-0 bg-brand-sand border border-brand-sand"
+                                referrerPolicy="no-referrer"
+                              />
+                              <div>
+                                <h4 className="text-sm font-black uppercase tracking-tight text-black line-clamp-1">
+                                  {post.title}
+                                </h4>
+                                <span className="text-[10px] text-gray-400 font-mono block mt-1">
+                                  {post.date} &bull; Slug: {post.slug}
+                                </span>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="p-6">
+                            <div className="flex flex-wrap gap-1.5">
+                              {post.categories.map((cat, idx) => (
+                                <span key={idx} className="px-2.5 py-1 bg-brand-sand/60 text-[8px] font-black uppercase tracking-widest text-brand-brown rounded-full">
+                                  {cat}
+                                </span>
+                              ))}
+                            </div>
+                          </td>
+                          <td className="p-6">
+                            <span className={`px-2.5 py-1 rounded-full text-[8px] font-black uppercase tracking-widest ${
+                              post.status === 'draft' 
+                                ? 'bg-gray-100 text-gray-500 border border-gray-200' 
+                                : 'bg-green-50 text-green-600 border border-green-200'
+                            }`}>
+                              {post.status || 'Published'}
+                            </span>
+                          </td>
+                          <td className="p-6 text-right">
+                            <div className="flex items-center justify-end gap-2">
+                              <Link
+                                to={`/admin/blog/edit/${post.id}`}
+                                className="p-2 text-brand-brown hover:bg-brand-beige rounded-xl transition-all cursor-pointer inline-flex items-center justify-center border border-brand-sand/30"
+                                title="Edit Journal Entry"
+                              >
+                                <Edit2 size={14} />
+                              </Link>
+                              
+                              <button
+                                onClick={() => handleDeletePost(post.id)}
+                                className="p-2 rounded-xl transition-all inline-flex items-center justify-center border text-red-500 hover:bg-red-50 border-red-100 cursor-pointer"
+                                title="Delete Journal Entry"
+                              >
+                                <Trash2 size={14} />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
             </div>
           )}
         </div>

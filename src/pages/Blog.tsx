@@ -35,6 +35,18 @@ export default function Blog() {
     return () => unsubscribe();
   }, []);
 
+  const handleDeletePost = async (id: string | number) => {
+    if (!window.confirm('Are you sure you want to delete this journal post?')) return;
+    
+    try {
+      await blogService.deletePost(id);
+      setPosts(prev => prev.filter(post => post.id !== id));
+    } catch (error) {
+      console.error('Failed to delete post:', error);
+      alert('Failed to delete the post.');
+    }
+  };
+
   const filteredPosts = posts
     .filter(post => {
       // If not admin, only show published posts
@@ -107,10 +119,16 @@ export default function Blog() {
                     )}
                     <Link 
                       to={`/admin/blog/edit/${post.id}`} 
-                      className="px-3 py-1 bg-white/80 backdrop-blur-md rounded-full text-[8px] font-black uppercase transition-colors hover:bg-white"
+                      className="px-3 py-1 bg-white/80 backdrop-blur-md rounded-full text-[8px] font-black uppercase text-black transition-colors hover:bg-white"
                     >
                       Edit
                     </Link>
+                    <button
+                      onClick={() => handleDeletePost(post.id)}
+                      className="px-3 py-1 bg-red-500 text-white rounded-full text-[8px] font-black uppercase transition-colors hover:bg-red-600 cursor-pointer"
+                    >
+                      Delete
+                    </button>
                   </div>
                 )}
                 <Link to={`/blog/${post.slug}`} className="block">

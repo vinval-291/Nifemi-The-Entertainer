@@ -4,6 +4,7 @@ export interface Project {
   title: string;
   category: string;
   image: string;
+  imagePosition?: string;
   desc: string;
   fullDesc: string;
   services: string[];
@@ -154,6 +155,7 @@ export const PROJECTS: Project[] = [
     title: 'Creator Content Lab', 
     category: 'Media', 
     image: 'https://i.postimg.cc/VkjGftqw/DSC03528.jpg',
+    imagePosition: 'center 10%',
     desc: 'Influencer collaborations and entertainment-based storytelling content.',
     fullDesc: 'Through his personal brand, Nifemi creates digital media content designed to engage audiences through storytelling, entertainment, and commentary. As "Nifemi The Entertainer", he brings high energy, exceptional vibes, and viral comedy segments to a global digital audience.',
     services: [
@@ -228,8 +230,8 @@ export const PROJECTS: Project[] = [
   },
   { 
     id: '5', 
-    slug: 'sanctuary-of-life',
-    title: 'Sanctuary of Life Ministries', 
+    slug: 'st-gregory',
+    title: 'St Gregory', 
     category: 'Media Production', 
     image: 'https://i.postimg.cc/d3rsyf06/Saint-Gregory-(1-of-10)-jpg.jpg',
     desc: 'Live media distribution and production strategy for religious broadcasting.',
@@ -390,7 +392,7 @@ export const PROJECTS: Project[] = [
     slug: 'city-105-1fm',
     title: 'City 105.1fm', 
     category: 'Media', 
-    image: 'https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?q=80&w=2670&auto=format&fit=crop',
+    image: 'https://i.postimg.cc/ZndZXpbk/city-fm.png',
     desc: 'Content production and social engagement for lifestyle radio broadcasting.',
     fullDesc: 'Collaborating with City 105.1fm, Nifemi worked at the pulse of Lagos radio culture. The focus was on bridging the gap between traditional FM broadcasting and digital social engagement, creating content that lives beyond the airwaves.',
     services: [

@@ -79,6 +79,7 @@ export default function ProjectDetail() {
               src={project.image} 
               alt={project.title} 
               className="w-full h-full object-cover"
+              style={{ objectPosition: project.imagePosition || 'center' }}
               referrerPolicy="no-referrer"
             />
           </div>
@@ -108,19 +109,6 @@ export default function ProjectDetail() {
           </div>
         </div>
 
-        {project.results && (
-          <section className="mb-32">
-             <h2 className="text-4xl font-black uppercase mb-12">Key <span className="text-brand-brown">Impacts.</span></h2>
-             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {project.results.map((result, i) => (
-                  <div key={i} className="p-8 bg-brand-beige rounded-2xl border border-brand-sand">
-                     <span className="text-4xl font-serif italic text-brand-brown mb-4 block">0{i + 1}</span>
-                     <p className="text-lg font-light leading-relaxed text-gray-700">{result}</p>
-                  </div>
-                ))}
-             </div>
-          </section>
-        )}
 
         {/* Dynamic Video Showcase Section */}
         {project.videos && project.videos.length > 0 && (

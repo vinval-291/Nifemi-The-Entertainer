@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { ArrowLeft, Save, Trash2, Globe, Eye } from 'lucide-react';
+import { ArrowLeft, Save, Trash2, Globe, Eye, Image } from 'lucide-react';
 import { blogService } from '../services/blogService';
 import { BlogPost } from '../constants/blog';
 import { auth } from '../lib/firebase';
@@ -16,6 +16,13 @@ export default function AdminBlogEditor() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(isEditing);
   const [saving, setSaving] = useState(false);
+
+  // States for inline image inserter
+  const [insertImgUrl, setInsertImgUrl] = useState('');
+  const [insertImgCaption, setInsertImgCaption] = useState('');
+  const [insertImgStyle, setInsertImgStyle] = useState<'full' | 'left' | 'right'>('full');
+  const [showInserter, setShowInserter] = useState(false);
+  const contentTextareaRef = useRef<HTMLTextAreaElement>(null);
 
   const [formData, setFormData] = useState<Omit<BlogPost, 'id'>>({
     slug: '',
@@ -47,6 +54,75 @@ export default function AdminBlogEditor() {
       ...prev,
       categories: prev.categories.filter(c => c !== catToRemove)
     }));
+  };
+
+  const handleInsertImage = () => {
+    if (!insertImgUrl.trim()) {
+      alert("Please enter an image URL.");
+      return;
+    }
+
+    const textarea = contentTextareaRef.current;
+    if (!textarea) return;
+
+    const startPos = textarea.selectionStart;
+    const endPos = textarea.selectionEnd;
+    const currentContent = formData.content;
+
+    let imgHtml = '';
+    const captionText = insertImgCaption.trim();
+    const captionHtml = captionText 
+      ? `\n  <figcaption class="block text-center text-xs text-gray-400 mt-2 font-light">${captionText}</figcaption>` 
+      : '';
+
+    if (insertImgStyle === 'full') {
+      imgHtml = `\n<figure class="my-8 block text-center">\n  <img src="${insertImgUrl.trim()}" alt="${captionText || 'Blog Image'}" class="w-full rounded-2xl object-cover shadow-lg max-h-[500px]" referrerPolicy="no-referrer" />${captionHtml}\n</figure>\n`;
+    } else if (insertImgStyle === 'left') {
+      imgHtml = `\n<figure class="md:float-left md:w-1/2 md:mr-8 my-6 block text-center">\n  <img src="${insertImgUrl.trim()}" alt="${captionText || 'Blog Image'}" class="w-full rounded-2xl object-cover shadow-md max-h-[350px]" referrerPolicy="no-referrer" />${captionHtml}\n</figure>\n`;
+    } else {
+      imgHtml = `\n<figure class="md:float-right md:w-1/2 md:ml-8 my-6 block text-center">\n  <img src="${insertImgUrl.trim()}" alt="${captionText || 'Blog Image'}" class="w-full rounded-2xl object-cover shadow-md max-h-[350px]" referrerPolicy="no-referrer" />${captionHtml}\n</figure>\n`;
+    }
+
+    const newContent = 
+      currentContent.substring(0, startPos) + 
+      imgHtml + 
+      currentContent.substring(endPos);
+
+    setFormData(prev => ({ ...prev, content: newContent }));
+
+    // Reset fields
+    setInsertImgUrl('');
+    setInsertImgCaption('');
+
+    // Refocus and reposition cursor
+    setTimeout(() => {
+      textarea.focus();
+      const newCursorPos = startPos + imgHtml.length;
+      textarea.setSelectionRange(newCursorPos, newCursorPos);
+    }, 50);
+  };
+
+  const handleInsertClear = () => {
+    const textarea = contentTextareaRef.current;
+    if (!textarea) return;
+
+    const startPos = textarea.selectionStart;
+    const endPos = textarea.selectionEnd;
+    const currentContent = formData.content;
+    const clearHtml = `\n<div class="clear-both my-6"></div>\n`;
+
+    const newContent = 
+      currentContent.substring(0, startPos) + 
+      clearHtml + 
+      currentContent.substring(endPos);
+
+    setFormData(prev => ({ ...prev, content: newContent }));
+
+    setTimeout(() => {
+      textarea.focus();
+      const newCursorPos = startPos + clearHtml.length;
+      textarea.setSelectionRange(newCursorPos, newCursorPos);
+    }, 50);
   };
 
   useEffect(() => {
@@ -127,13 +203,6 @@ export default function AdminBlogEditor() {
   const handleDelete = async () => {
     if (!id) return;
     
-    // Check if it's a static post (numeric IDs in our setup are static)
-    const isStatic = !isNaN(Number(id));
-    if (isStatic) {
-      alert("This is a hardcoded post and cannot be deleted from the database.");
-      return;
-    }
-
     if (!window.confirm('Are you sure you want to delete this post?')) return;
     
     setSaving(true);
@@ -304,19 +373,121 @@ export default function AdminBlogEditor() {
               />
             </div>
 
-            <div className="space-y-2">
-              <div className="flex justify-between items-center">
-                <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">Content (HTML)</label>
-                <span className="text-[8px] text-gray-400 font-bold uppercase">Basic HTML Supported</span>
+            <div className="space-y-4">
+              <div className="bg-brand-beige rounded-2xl p-6 border border-brand-sand space-y-4">
+                <div className="flex justify-between items-center">
+                  <button
+                    type="button"
+                    onClick={() => setShowInserter(!showInserter)}
+                    className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-brand-brown hover:text-black transition-colors"
+                  >
+                    <Image size={14} />
+                    {showInserter ? 'Hide Inline Image Helper' : 'Show Inline Image Helper'}
+                  </button>
+                  <span className="text-[9px] text-gray-400 font-bold uppercase">Insert images between paragraphs</span>
+                </div>
+
+                {showInserter && (
+                  <div className="space-y-4 pt-4 border-t border-brand-sand/60">
+                    <p className="text-xs text-gray-500 leading-relaxed font-light">
+                      Enter an image URL, choose a layout style, then click <strong>Insert Image HTML</strong> to append it exactly where your cursor is inside the content box below.
+                    </p>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-1">
+                        <label className="text-[8px] font-black uppercase tracking-widest text-gray-400 block">Image URL</label>
+                        <input 
+                          type="text"
+                          value={insertImgUrl}
+                          onChange={(e) => setInsertImgUrl(e.target.value)}
+                          placeholder="https://i.postimg.cc/... or Unsplash URL"
+                          className="w-full bg-white border border-brand-sand rounded-xl px-3 py-2 text-xs outline-none focus:border-black transition-colors"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-[8px] font-black uppercase tracking-widest text-gray-400 block">Caption / Alt Text (Optional)</label>
+                        <input 
+                          type="text"
+                          value={insertImgCaption}
+                          onChange={(e) => setInsertImgCaption(e.target.value)}
+                          placeholder="e.g. Creative Direction Showcase"
+                          className="w-full bg-white border border-brand-sand rounded-xl px-3 py-2 text-xs outline-none focus:border-black transition-colors"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="flex flex-wrap items-center justify-between gap-4 pt-2">
+                      <div className="flex items-center gap-4">
+                        <span className="text-[8px] font-black uppercase tracking-widest text-gray-400">Layout Style:</span>
+                        <div className="flex bg-white p-0.5 rounded-lg border border-brand-sand">
+                          <button
+                            type="button"
+                            onClick={() => setInsertImgStyle('full')}
+                            className={`px-3 py-1 text-[8px] font-black uppercase tracking-widest rounded-md transition-all ${
+                              insertImgStyle === 'full' ? 'bg-brand-brown text-white' : 'text-gray-400 hover:text-gray-600'
+                            }`}
+                          >
+                            Full Width
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setInsertImgStyle('left')}
+                            className={`px-3 py-1 text-[8px] font-black uppercase tracking-widest rounded-md transition-all ${
+                              insertImgStyle === 'left' ? 'bg-brand-brown text-white' : 'text-gray-400 hover:text-gray-600'
+                            }`}
+                          >
+                            Left Float
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setInsertImgStyle('right')}
+                            className={`px-3 py-1 text-[8px] font-black uppercase tracking-widest rounded-md transition-all ${
+                              insertImgStyle === 'right' ? 'bg-brand-brown text-white' : 'text-gray-400 hover:text-gray-600'
+                            }`}
+                          >
+                            Right Float
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="flex gap-2">
+                        <button
+                          type="button"
+                          onClick={handleInsertClear}
+                          title="Injects a spacing block to stop text from wrapping around floated images"
+                          className="px-4 py-2 bg-brand-sand/50 text-[9px] font-black uppercase tracking-widest rounded-xl hover:bg-brand-sand transition-all text-brand-brown border border-brand-sand/30"
+                        >
+                          Insert Wrap Break
+                        </button>
+                        
+                        <button
+                          type="button"
+                          onClick={handleInsertImage}
+                          className="px-5 py-2 bg-brand-brown text-white text-[9px] font-black uppercase tracking-widest rounded-xl hover:bg-black transition-all"
+                        >
+                          Insert Image HTML
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                )}
               </div>
-              <textarea 
-                required
-                name="content"
-                value={formData.content}
-                onChange={handleChange}
-                className="w-full bg-brand-beige border border-brand-sand rounded-xl px-4 py-3 outline-none focus:border-black transition-colors text-sm min-h-[400px] font-mono leading-relaxed"
-                placeholder="<p>Write your story here...</p>"
-              />
+
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-gray-400">Content (HTML)</label>
+                  <span className="text-[8px] text-gray-400 font-bold uppercase">Basic HTML Supported</span>
+                </div>
+                <textarea 
+                  required
+                  name="content"
+                  ref={contentTextareaRef}
+                  value={formData.content}
+                  onChange={handleChange}
+                  className="w-full bg-brand-beige border border-brand-sand rounded-xl px-4 py-3 outline-none focus:border-black transition-colors text-sm min-h-[400px] font-mono leading-relaxed"
+                  placeholder="<p>Write your story here...</p>"
+                />
+              </div>
             </div>
 
             <div className="flex justify-between items-center pt-8">

@@ -178,6 +178,7 @@ export default function Home() {
                   title={project.title}
                   category={project.category}
                   slug={project.slug}
+                  imagePosition={project.imagePosition}
                 />
               </div>
             ))}
@@ -276,7 +277,7 @@ export default function Home() {
   );
 }
 
-function ProjectCard({ image, title, category, slug }: { image: string, title: string, category: string, slug: string }) {
+function ProjectCard({ image, title, category, slug, imagePosition }: { image: string, title: string, category: string, slug: string, imagePosition?: string }) {
   return (
     <Link to={`/portfolio/${slug}`} className="group block">
       <div className="aspect-video overflow-hidden rounded-2xl mb-6 shadow-xl bg-brand-sand">
@@ -284,6 +285,7 @@ function ProjectCard({ image, title, category, slug }: { image: string, title: s
           src={image} 
           alt={title} 
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          style={{ objectPosition: imagePosition || 'center' }}
           referrerPolicy="no-referrer"
         />
       </div>

@@ -57,6 +57,7 @@ export default function Portfolio() {
                       src={project.image} 
                       alt={project.title} 
                       className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
+                      style={{ objectPosition: project.imagePosition || 'center' }}
                       referrerPolicy="no-referrer"
                     />
                   </div>
