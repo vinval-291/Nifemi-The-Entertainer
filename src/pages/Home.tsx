@@ -106,8 +106,8 @@ export default function Home() {
               Creative Direction, and Result-Driven Digital Marketing.
             </p>
             <div className="flex flex-wrap gap-4">
-              <Link to="/portfolio" className="btn-primary backdrop-blur-sm bg-white text-black border-none px-12">View Portfolio</Link>
-              <Link to="/contact" className="btn-outline text-white border-white hover:bg-white hover:text-black px-12">Work With Me</Link>
+              <Link to="/portfolio" className="btn-primary backdrop-blur-sm bg-white text-brand-brown border-none px-12 hover:bg-brand-beige transition-colors">View Portfolio</Link>
+              <Link to="/contact" className="btn-outline text-brand-brown border-brand-brown hover:bg-brand-brown hover:text-white px-12 transition-all">Work With Me</Link>
             </div>
           </motion.div>
         </div>

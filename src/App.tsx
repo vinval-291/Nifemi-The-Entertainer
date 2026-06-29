@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { AnimatePresence, motion } from 'motion/react';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
+import WhatsAppWidget from './components/layout/WhatsAppWidget';
 import Home from './pages/Home';
 import About from './pages/About';
 import Portfolio from './pages/Portfolio';
@@ -79,6 +80,7 @@ export default function App() {
           <PageRoutes />
         </main>
         <Footer />
+        <WhatsAppWidget />
       </div>
     </Router>
   );
