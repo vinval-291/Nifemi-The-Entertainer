@@ -64,7 +64,7 @@ export default function Contact() {
                     const hrefs: { [key: string]: string } = {
                       Instagram: 'https://www.instagram.com/nifemitheentertainer',
                       Twitter: 'https://x.com/nifeentertainer',
-                      LinkedIn: 'https://linkedin.com/in/nifemi-ajisefinni',
+                      LinkedIn: 'https://www.linkedin.com/in/nifemi-the-entertainer-74115a231?utm_source=share_via&utm_content=profile&utm_medium=member_android',
                     };
                     return (
                       <a key={social} href={hrefs[social] || '#'} target="_blank" rel="noreferrer" className="hover:text-brand-brown transition-colors">{social}</a>

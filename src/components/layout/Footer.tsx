@@ -20,7 +20,7 @@ export default function Footer() {
             <div className="flex gap-4">
               <SocialIcon icon={<Instagram size={20} />} href="https://www.instagram.com/nifemitheentertainer" />
               <SocialIcon icon={<Twitter size={20} />} href="https://x.com/nifeentertainer" />
-              <SocialIcon icon={<Linkedin size={20} />} href="https://linkedin.com/in/nifemi-the-entertainer-74115a231" />
+              <SocialIcon icon={<Linkedin size={20} />} href="https://www.linkedin.com/in/nifemi-the-entertainer-74115a231?utm_source=share_via&utm_content=profile&utm_medium=member_android" />
               <SocialIcon icon={<Mail size={20} />} href="mailto:nifemitheentertainer@gmail.com" />
             </div>
           </div>
