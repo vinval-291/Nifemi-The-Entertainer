@@ -76,7 +76,7 @@ export default function BlogDetail() {
         </Link>
 
         {/* Header */}
-        <header className="max-w-4xl mb-16">
+        <header className="max-w-5xl mb-16">
           <div className="flex flex-wrap items-center gap-4 mb-8">
             {post.categories.map((cat, idx) => (
               <span key={idx} className="px-4 py-1.5 bg-brand-beige text-brand-brown text-[10px] font-black uppercase tracking-widest rounded-full">
@@ -131,7 +131,7 @@ export default function BlogDetail() {
           </aside>
 
           {/* Article Text */}
-          <div className="lg:col-span-8 lg:col-start-3">
+          <div className="lg:col-span-10 lg:col-start-2 lg:pl-4">
             <div 
               className="prose prose-lg md:prose-xl max-w-none 
               prose-headings:font-black prose-headings:uppercase prose-headings:tracking-tight
