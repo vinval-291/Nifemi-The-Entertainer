@@ -2,6 +2,8 @@ import {
   collection, 
   getDocs, 
   doc, 
+  getDoc,
+  setDoc,
   addDoc, 
   updateDoc, 
   deleteDoc, 
@@ -163,10 +165,19 @@ export const blogService = {
   async updatePost(id: string, post: Partial<BlogPost>): Promise<void> {
     try {
       const docRef = doc(db, COLLECTION_NAME, id);
-      await updateDoc(docRef, {
-        ...post,
-        updatedAt: serverTimestamp(),
-      });
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        await updateDoc(docRef, {
+          ...post,
+          updatedAt: serverTimestamp(),
+        });
+      } else {
+        await setDoc(docRef, {
+          ...post,
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp(),
+        });
+      }
     } catch (error) {
       handleFirestoreError(error, OperationType.UPDATE, `${COLLECTION_NAME}/${id}`);
     }
