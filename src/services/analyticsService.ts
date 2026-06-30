@@ -7,7 +7,9 @@ import {
   where,
   serverTimestamp,
   Timestamp,
-  limit
+  limit,
+  deleteDoc,
+  doc
 } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 
@@ -83,6 +85,18 @@ export const analyticsService = {
     } catch (error) {
       console.error('Failed to fetch analytics', error);
       return [];
+    }
+  },
+
+  clearAnalytics: async () => {
+    try {
+      const q = query(collection(db, COLLECTION_NAME));
+      const snapshot = await getDocs(q);
+      const deletePromises = snapshot.docs.map(d => deleteDoc(doc(db, COLLECTION_NAME, d.id)));
+      await Promise.all(deletePromises);
+    } catch (error) {
+      console.error('Failed to clear analytics', error);
+      throw error;
     }
   }
 };

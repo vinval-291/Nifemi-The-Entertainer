@@ -50,6 +50,41 @@ export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState<'analytics' | 'inquiries' | 'journals'>('analytics');
   const navigate = useNavigate();
 
+  const [confirmModal, setConfirmModal] = useState<{
+    isOpen: boolean;
+    title: string;
+    message: string;
+    onConfirm: () => void | Promise<void>;
+    confirmText?: string;
+    cancelText?: string;
+    isDestructive?: boolean;
+  }>({
+    isOpen: false,
+    title: '',
+    message: '',
+    onConfirm: () => {},
+    confirmText: 'Confirm',
+    cancelText: 'Cancel',
+    isDestructive: false
+  });
+
+  const [alertState, setAlertState] = useState<{
+    isOpen: boolean;
+    message: string;
+    type: 'success' | 'error';
+  }>({
+    isOpen: false,
+    message: '',
+    type: 'success'
+  });
+
+  const showAlert = (message: string, type: 'success' | 'error' = 'success') => {
+    setAlertState({ isOpen: true, message, type });
+    setTimeout(() => {
+      setAlertState(prev => ({ ...prev, isOpen: false }));
+    }, 4000);
+  };
+
   const fetchStats = async () => {
     setLoading(true);
     try {
@@ -89,27 +124,71 @@ export default function AdminDashboard() {
     }
   }, [isAdmin, timeRange]);
 
-  const handleDeleteInquiry = async (id: string) => {
-    if (!window.confirm('Are you sure you want to delete this inquiry?')) return;
-    try {
-      await contactService.deleteInquiry(id);
-      setInquiries(prev => prev.filter(inq => inq.id !== id));
-    } catch (error) {
-      console.error('Failed to delete inquiry:', error);
-      alert('Failed to delete contact inquiry.');
-    }
+  const handleDeleteInquiry = (id: string) => {
+    setConfirmModal({
+      isOpen: true,
+      title: 'Delete Inquiry',
+      message: 'Are you sure you want to delete this contact inquiry? This action cannot be undone.',
+      confirmText: 'Delete',
+      cancelText: 'Cancel',
+      isDestructive: true,
+      onConfirm: async () => {
+        try {
+          await contactService.deleteInquiry(id);
+          setInquiries(prev => prev.filter(inq => inq.id !== id));
+          showAlert('Inquiry deleted successfully.', 'success');
+        } catch (error) {
+          console.error('Failed to delete inquiry:', error);
+          showAlert('Failed to delete contact inquiry.', 'error');
+        }
+      }
+    });
   };
 
-  const handleDeletePost = async (id: string | number) => {
-    if (!window.confirm('Are you sure you want to delete this journal post?')) return;
-    
-    try {
-      await blogService.deletePost(id);
-      setPosts(prev => prev.filter(post => post.id !== id));
-    } catch (error) {
-      console.error('Failed to delete post:', error);
-      alert('Failed to delete the post.');
-    }
+  const handleDeletePost = (id: string | number) => {
+    setConfirmModal({
+      isOpen: true,
+      title: 'Delete Journal Post',
+      message: 'Are you sure you want to delete this journal post? This action cannot be undone.',
+      confirmText: 'Delete',
+      cancelText: 'Cancel',
+      isDestructive: true,
+      onConfirm: async () => {
+        try {
+          await blogService.deletePost(id);
+          setPosts(prev => prev.filter(post => post.id !== id));
+          showAlert('Journal post deleted successfully.', 'success');
+        } catch (error) {
+          console.error('Failed to delete post:', error);
+          showAlert('Failed to delete the post.', 'error');
+        }
+      }
+    });
+  };
+
+  const handleResetAnalytics = () => {
+    setConfirmModal({
+      isOpen: true,
+      title: 'Reset Analytics',
+      message: 'Are you sure you want to reset all tracking statistics to zero? This action will permanently delete all logs of page views and user sessions.',
+      confirmText: 'Reset Stats',
+      cancelText: 'Cancel',
+      isDestructive: true,
+      onConfirm: async () => {
+        setLoading(true);
+        try {
+          await analyticsService.clearAnalytics();
+          setEvents([]);
+          setTotalVisitorCount(0);
+          showAlert('Analytics statistics have been successfully reset to zero.', 'success');
+        } catch (error) {
+          console.error('Failed to reset analytics:', error);
+          showAlert('Failed to reset analytics. Please try again.', 'error');
+        } finally {
+          setLoading(false);
+        }
+      }
+    });
   };
 
   const stats = {
@@ -178,20 +257,31 @@ export default function AdminDashboard() {
         </div>
 
         {activeTab === 'analytics' && (
-          <div className="flex bg-brand-beige p-1 rounded-full border border-brand-sand">
-            {[7, 30, 90].map((days) => (
-              <button
-                key={days}
-                onClick={() => setTimeRange(days)}
-                className={`px-6 py-2 text-[10px] font-black uppercase tracking-widest rounded-full transition-all cursor-pointer ${
-                  timeRange === days 
-                    ? 'bg-brand-brown text-white shadow-lg' 
-                    : 'text-gray-400 hover:text-gray-600'
-                }`}
-              >
-                {days} Days
-              </button>
-            ))}
+          <div className="flex flex-wrap items-center gap-4">
+            <div className="flex bg-brand-beige p-1 rounded-full border border-brand-sand">
+              {[7, 30, 90].map((days) => (
+                <button
+                  key={days}
+                  onClick={() => setTimeRange(days)}
+                  className={`px-6 py-2 text-[10px] font-black uppercase tracking-widest rounded-full transition-all cursor-pointer ${
+                    timeRange === days 
+                      ? 'bg-brand-brown text-white shadow-lg' 
+                      : 'text-gray-400 hover:text-gray-600'
+                  }`}
+                >
+                  {days} Days
+                </button>
+              ))}
+            </div>
+
+            <button
+              onClick={handleResetAnalytics}
+              className="px-6 py-3 border border-red-200 hover:bg-red-50 text-red-500 text-[10px] font-black uppercase tracking-widest rounded-full transition-all cursor-pointer flex items-center gap-2"
+              title="Reset All Stats to Zero"
+            >
+              <Trash2 size={12} />
+              Reset Stats
+            </button>
           </div>
         )}
       </header>
@@ -535,6 +625,58 @@ export default function AdminDashboard() {
               </div>
             </div>
           )}
+        </div>
+      )}
+
+      {/* Custom Alert/Success Banner toast */}
+      {alertState.isOpen && (
+        <div id="analytics-alert" className="fixed bottom-6 left-6 z-50">
+          <div className={`px-6 py-4 rounded-2xl shadow-xl flex items-center gap-3 border bg-white text-black animate-bounce ${
+            alertState.type === 'success' 
+              ? 'border-green-100' 
+              : 'border-red-100'
+          }`}>
+            <div className={`w-2.5 h-2.5 rounded-full ${alertState.type === 'success' ? 'bg-green-500' : 'bg-red-500'}`} />
+            <p className="text-[11px] uppercase tracking-wider font-black">{alertState.message}</p>
+          </div>
+        </div>
+      )}
+
+      {/* Custom Dialog/Confirmation Modal */}
+      {confirmModal.isOpen && (
+        <div id="analytics-confirm-modal" className="fixed inset-0 bg-black/45 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl border border-brand-sand max-w-md w-full p-8 shadow-2xl relative">
+            <h3 className="font-display font-black text-lg uppercase tracking-tight text-black mb-4">
+              {confirmModal.title}
+            </h3>
+            <p className="text-xs text-gray-600 font-light leading-relaxed mb-8">
+              {confirmModal.message}
+            </p>
+            <div className="flex items-center justify-end gap-3">
+              <button
+                id="analytics-confirm-cancel"
+                onClick={() => setConfirmModal(prev => ({ ...prev, isOpen: false }))}
+                className="px-6 py-3 rounded-full border border-brand-sand hover:bg-brand-beige text-[10px] font-black uppercase tracking-widest text-gray-500 transition-colors cursor-pointer"
+              >
+                {confirmModal.cancelText || 'Cancel'}
+              </button>
+              <button
+                id="analytics-confirm-action"
+                onClick={async () => {
+                  const onConfirmAction = confirmModal.onConfirm;
+                  setConfirmModal(prev => ({ ...prev, isOpen: false }));
+                  await onConfirmAction();
+                }}
+                className={`px-6 py-3 rounded-full text-[10px] font-black uppercase tracking-widest text-white transition-all cursor-pointer ${
+                  confirmModal.isDestructive 
+                    ? 'bg-red-500 hover:bg-red-600 shadow-red-100 shadow-lg' 
+                    : 'bg-brand-brown hover:bg-black shadow-brand-sand/50 shadow-lg'
+                }`}
+              >
+                {confirmModal.confirmText || 'Confirm'}
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
